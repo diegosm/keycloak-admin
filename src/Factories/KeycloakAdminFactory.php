@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Factory;
+namespace KeycloakAdmin\Factories;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use GuzzleHttp\Client;

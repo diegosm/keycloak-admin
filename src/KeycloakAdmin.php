@@ -7,7 +7,7 @@ namespace KeycloakAdmin;
 use GuzzleHttp\Client;
 
 use JMS\Serializer\SerializerInterface;
-use KeycloakAdmin\Exception\UnauthorizedException;
+use KeycloakAdmin\Exceptions\UnauthorizedException;
 use KeycloakAdmin\Realms\RealmManager;
 
 class KeycloakAdmin
@@ -39,11 +39,12 @@ class KeycloakAdmin
     private function login() : void
     {
         $data = [
+            'auth' => [
+                $this->keycloakAdminConfig->getUsername(),
+                $this->keycloakAdminConfig->getPassword()
+            ],
             'form_params' => [
-                'username' => $this->keycloakAdminConfig->getUsername(),
-                'password' => $this->keycloakAdminConfig->getPassword(),
-                'grant_type' => 'password',
-                'client_id' => 'admin-cli'
+                'grant_type' => 'client_credentials'
             ]
         ];
 

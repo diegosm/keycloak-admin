@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Exception;
+namespace KeycloakAdmin\Exceptions;
 
 class InvalidRequestException extends \Exception
 {

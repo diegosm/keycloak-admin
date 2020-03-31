@@ -6,7 +6,7 @@ namespace Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use KeycloakAdmin\Exception\UnauthorizedException;
+use KeycloakAdmin\Exceptions\UnauthorizedException;
 use KeycloakAdmin\Realms\RealmManager;
 use PHPUnit\Framework\TestCase;
 
