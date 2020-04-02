@@ -17,6 +17,8 @@ $keycloakAdmin = KeycloakAdminFactory::create(
 
 To do list (Not ordered by priority)
 ------
-1. Review and make tests for all exceptions
-2. Make realm extra endpoints (i.e. clear sessions)
-3. Make tests for clients with stubs
+1. Make users management
+2. Make roles management
+3. Review and make tests for all exceptions
+4. Make realm extra endpoints (i.e. clear sessions)
+5. Make documentation
