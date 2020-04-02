@@ -662,5 +662,4 @@ class Client
     {
         $this->access = $access;
     }
-
 }

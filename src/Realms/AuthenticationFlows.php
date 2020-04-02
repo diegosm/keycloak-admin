@@ -39,7 +39,7 @@ class AuthenticationFlows implements \JsonSerializable
      */
     public function __construct(
         string $alias = '',
-        AuthenticationExecutionExportRepresentation $authenticationExecutions,
+        AuthenticationExecutionExportRepresentation $authenticationExecutions = null,
         bool $builtIn = false,
         string $description = '',
         string $id = '',

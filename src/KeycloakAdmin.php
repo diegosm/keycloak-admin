@@ -62,7 +62,6 @@ class KeycloakAdmin
                     KeycloakAuth::class,
                     'json'
                 );
-
             } else {
                 throw new UnauthorizedException();
             }

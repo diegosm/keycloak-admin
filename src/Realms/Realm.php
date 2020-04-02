@@ -1580,12 +1580,12 @@ class Realm implements \JsonSerializable
     }
 
     /**
-     * @param mixed $webAuthnPolicyPasswordlessAttestationConveyancePreference
+     * @param mixed $param
      * @return Realm
      */
-    public function setWebAuthnPolicyPasswordlessAttestationConveyancePreference($webAuthnPolicyPasswordlessAttestationConveyancePreference)
+    public function setWebAuthnPolicyPasswordlessAttestationConveyancePreference($param)
     {
-        $this->webAuthnPolicyPasswordlessAttestationConveyancePreference = $webAuthnPolicyPasswordlessAttestationConveyancePreference;
+        $this->webAuthnPolicyPasswordlessAttestationConveyancePreference = $param;
         return $this;
     }
 
@@ -1598,12 +1598,12 @@ class Realm implements \JsonSerializable
     }
 
     /**
-     * @param mixed $webAuthnPolicyPasswordlessAuthenticatorAttachment
+     * @param mixed $param
      * @return Realm
      */
-    public function setWebAuthnPolicyPasswordlessAuthenticatorAttachment($webAuthnPolicyPasswordlessAuthenticatorAttachment)
+    public function setWebAuthnPolicyPasswordlessAuthenticatorAttachment($param)
     {
-        $this->webAuthnPolicyPasswordlessAuthenticatorAttachment = $webAuthnPolicyPasswordlessAuthenticatorAttachment;
+        $this->webAuthnPolicyPasswordlessAuthenticatorAttachment = $param;
         return $this;
     }
 
@@ -1634,12 +1634,12 @@ class Realm implements \JsonSerializable
     }
 
     /**
-     * @param mixed $webAuthnPolicyPasswordlessUserVerificationRequirement
+     * @param mixed $param
      * @return Realm
      */
-    public function setWebAuthnPolicyPasswordlessUserVerificationRequirement($webAuthnPolicyPasswordlessUserVerificationRequirement)
+    public function setWebAuthnPolicyPasswordlessUserVerificationRequirement($param)
     {
-        $this->webAuthnPolicyPasswordlessUserVerificationRequirement = $webAuthnPolicyPasswordlessUserVerificationRequirement;
+        $this->webAuthnPolicyPasswordlessUserVerificationRequirement = $param;
         return $this;
     }
 
@@ -1670,12 +1670,12 @@ class Realm implements \JsonSerializable
     }
 
     /**
-     * @param mixed $webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister
+     * @param mixed $param
      * @return Realm
      */
-    public function setWebAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister($webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister)
+    public function setWebAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister($param)
     {
-        $this->webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister = $webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister;
+        $this->webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister = $param;
         return $this;
     }
 
@@ -1688,12 +1688,12 @@ class Realm implements \JsonSerializable
     }
 
     /**
-     * @param mixed $webAuthnPolicyPasswordlessAcceptableAaguids
+     * @param mixed $param
      * @return Realm
      */
-    public function setWebAuthnPolicyPasswordlessAcceptableAaguids($webAuthnPolicyPasswordlessAcceptableAaguids)
+    public function setWebAuthnPolicyPasswordlessAcceptableAaguids($param)
     {
-        $this->webAuthnPolicyPasswordlessAcceptableAaguids = $webAuthnPolicyPasswordlessAcceptableAaguids;
+        $this->webAuthnPolicyPasswordlessAcceptableAaguids = $param;
         return $this;
     }
 

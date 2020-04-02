@@ -36,7 +36,7 @@ class KeycloakAdminConfig
         return $this->password;
     }
 
-    public function getUrl($url = '')
+    public function getUrl(string $url = '')
     {
         return $this->url . '/' . $url;
     }

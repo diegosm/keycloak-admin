@@ -45,9 +45,9 @@ class AuthenticationExecutionExportRepresentation implements \JsonSerializable
     public function __construct(
         $authenticator = '',
         $authenticatorConfig = '',
-        $authenticatorFlow  = false,
+        $authenticatorFlow = false,
         $autheticatorFlow = false,
-        $flowAlias  = '',
+        $flowAlias = '',
         $priority = 0,
         $requirement = '',
         $userSetupAllowed = ''
