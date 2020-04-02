@@ -96,6 +96,7 @@ class RealmManager
     /**
      * @return Realm
      * @throws RealmInvalidException
+     * @throws RealmNotFoundException
      * @throws RealmSaveException
      */
     public function save() : Realm
@@ -123,7 +124,7 @@ class RealmManager
             throw new RealmSaveException();
         }
 
-        return $this->resource;
+        return $this->getRealm();
     }
 
     /**

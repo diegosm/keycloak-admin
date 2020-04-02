@@ -7,7 +7,7 @@ namespace KeycloakAdmin\Factories;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use GuzzleHttp\Client;
 use KeycloakAdmin\KeycloakAdmin;
-use KeycloakAdmin\KeycloakAdminConfig;
+use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 
 class KeycloakAdminFactory
 {

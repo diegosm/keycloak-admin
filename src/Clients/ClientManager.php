@@ -6,6 +6,7 @@ namespace KeycloakAdmin\Clients;
 
 use GuzzleHttp\Client as ClientHttp;
 use JMS\Serializer\SerializerInterface;
+use KeycloakAdmin\Clients\Exceptions\ClientDeleteException;
 use KeycloakAdmin\Clients\Exceptions\ClientInvalidException;
 use KeycloakAdmin\Clients\Exceptions\ClientNotFoundException;
 use KeycloakAdmin\Clients\Exceptions\ClientSaveException;
@@ -46,24 +47,24 @@ class ClientManager
      * @param string $realmName
      */
     public function __construct(
-        ClientHttp          $clientHttp,
+        ClientHttp $clientHttp,
         KeycloakAdminConfig $keycloakAdminConfig,
         SerializerInterface $serializer,
-        KeycloakAuth        $keycloakAuth,
+        KeycloakAuth $keycloakAuth,
         string $realmName
     ) {
-        $this->clientHttp          = $clientHttp;
+        $this->clientHttp = $clientHttp;
         $this->keycloakAdminConfig = $keycloakAdminConfig;
-        $this->serializer          = $serializer;
-        $this->keycloakAuth        = $keycloakAuth;
-        $this->realmName           = $realmName;
+        $this->serializer = $serializer;
+        $this->keycloakAuth = $keycloakAuth;
+        $this->realmName = $realmName;
     }
 
     /**
      * @return ClientCollection
      * @throws RequestInvalidException
      */
-    public function list() : ClientCollection
+    public function list(): ClientCollection
     {
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders()
@@ -91,7 +92,7 @@ class ClientManager
      * @throws ClientInvalidException
      * @throws ClientSaveException
      */
-    public function save() : Client
+    public function save(): Client
     {
         if (empty($this->resource)) {
             throw new ClientInvalidException();
@@ -124,7 +125,7 @@ class ClientManager
      * @return Client
      * @throws ClientNotFoundException
      */
-    public function show(string $clientId) : Client
+    public function show(string $clientId): Client
     {
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders(),
@@ -144,7 +145,13 @@ class ClientManager
         return $this->deserialize($request->getBody()->getContents());
     }
 
-    public function update(string $clientId) : Client
+    /**
+     * @return Client
+     * @throws ClientInvalidException
+     * @throws ClientNotFoundException
+     * @throws ClientUpdateException
+     */
+    public function update(): Client
     {
         if (empty($this->resource)) {
             throw new ClientInvalidException();
@@ -158,7 +165,9 @@ class ClientManager
         try {
             $request = $this->clientHttp->request(
                 'PUT',
-                $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/clients/' . $clientId),
+                $this->keycloakAdminConfig->getUrl(
+                    'admin/realms/' . $this->realmName . '/clients/' . $this->resource->getId()
+                ),
                 $data
             );
 
@@ -169,9 +178,50 @@ class ClientManager
             throw new ClientUpdateException();
         }
 
-        return $this->show($this->resource->getClientId());
+        return $this->show($this->resource->getId());
     }
 
+    /**
+     * @param string $clientId
+     * @throws ClientDeleteException
+     */
+    public function delete(string $clientId) : void
+    {
+        $data = [
+            'headers' => $this->keycloakAuth->getDefaultHeaders(),
+        ];
+
+        try {
+            $request = $this->clientHttp->request(
+                'DELETE',
+                $this->keycloakAdminConfig->getUrl(
+                    'admin/realms/' . $this->realmName . '/clients/' . $clientId
+                ),
+                $data
+            );
+
+            if ($request->getStatusCode() !== 204) {
+                throw new ClientDeleteException();
+            }
+        } catch (\Exception $exception) {
+            throw new ClientDeleteException();
+        }
+
+        return;
+    }
+
+    /**
+     * @return Client
+     * @throws ClientNotFoundException
+     */
+    public function getClient() : Client
+    {
+        if (empty($this->resource)) {
+            throw new ClientNotFoundException();
+        }
+
+        return $this->resource;
+    }
     private function deserialize(string $data) : Client
     {
         return $this->serializer->deserialize($data, Client::class, 'json');
