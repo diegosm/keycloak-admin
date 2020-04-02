@@ -7,7 +7,7 @@ namespace KeycloakAdmin\Realms;
 use GuzzleHttp\Client;
 use JMS\Serializer\SerializerInterface;
 use KeycloakAdmin\Realms\Exceptions\RealmInvalidException;
-use KeycloakAdmin\Realms\Exceptions\RequestInvalidException;
+use KeycloakAdmin\Keycloak\Exceptions\RequestInvalidException;
 use KeycloakAdmin\Realms\Exceptions\RealmDeleteException;
 use KeycloakAdmin\Realms\Exceptions\RealmNotFoundException;
 use KeycloakAdmin\Realms\Exceptions\RealmSaveException;

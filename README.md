@@ -14,3 +14,9 @@ $keycloakAdmin = KeycloakAdminFactory::create(
     $url // default root url like http://keycloak:8080/auth
 );
 ```
+
+To do list (Not ordered by priority)
+------
+1. Review and make tests for all exceptions
+2. Make realm extra endpoints (i.e. clear sessions)
+3. Make tests for clients with stubs
