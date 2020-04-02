@@ -8,13 +8,29 @@ use GuzzleHttp\Client;
 use JMS\Serializer\SerializerInterface;
 use KeycloakAdmin\Exceptions\InvalidRealmException;
 use KeycloakAdmin\Exceptions\InvalidRequestException;
+use KeycloakAdmin\Exceptions\RealmDeleteException;
 use KeycloakAdmin\Exceptions\RealmNotFoundException;
 use KeycloakAdmin\Exceptions\RealmSaveErrorException;
+use KeycloakAdmin\Exceptions\RealmUpdateException;
 use KeycloakAdmin\KeycloakAdminConfig;
 use KeycloakAdmin\KeycloakAuth;
+use KeycloakAdmin\Traits\CreatableTrait;
 
+/**
+ * Class RealmManager
+ *
+ * Due to possible of delay/waiting time to process your operations
+ * on keycloak server, we cant retrieve inserted/updated data from
+ * keycloak server, IT SHOULD RETURN the realm that you pass before
+ * this operation otherwise if have any error you will
+ * receive and exception
+ *
+ * @package KeycloakAdmin\Realms
+ */
 class RealmManager
 {
+    use CreatableTrait;
+
     /** @var Client */
     private $client;
 
@@ -28,8 +44,16 @@ class RealmManager
     private $keycloakAuth;
 
     /** @var Realm */
-    private $realm;
+    private $resource;
 
+    /**
+     * RealmManager constructor.
+     *
+     * @param Client $client
+     * @param KeycloakAdminConfig $keycloakAdminConfig
+     * @param SerializerInterface $serializer
+     * @param KeycloakAuth $keycloakAuth
+     */
     public function __construct(
         Client $client,
         KeycloakAdminConfig $keycloakAdminConfig,
@@ -42,12 +66,14 @@ class RealmManager
         $this->keycloakAuth        = $keycloakAuth;
     }
 
+    /**
+     * @return RealmCollection
+     * @throws InvalidRequestException
+     */
     public function list() : RealmCollection
     {
         $data = [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->keycloakAuth->getAccessToken()
-            ]
+            'headers' => $this->keycloakAuth->getDefaultHeaders()
         ];
 
         $request = $this->client->request(
@@ -67,15 +93,20 @@ class RealmManager
         );
     }
 
+    /**
+     * @return Realm
+     * @throws InvalidRealmException
+     * @throws RealmSaveErrorException
+     */
     public function save() : Realm
     {
-        if (empty($this->realm)) {
+        if (empty($this->resource)) {
             throw new InvalidRealmException();
         }
 
         $data = [
-            'headers' => $this->getHeaders(),
-            'json' => $this->realm->toArray()
+            'headers' => $this->keycloakAuth->getDefaultHeaders(),
+            'json' => $this->resource->toArray()
         ];
 
         try {
@@ -92,13 +123,18 @@ class RealmManager
             throw new RealmSaveErrorException();
         }
 
-        return $this->show($this->realm->getRealm());
+        return $this->resource;
     }
 
+    /**
+     * @param string $realmName
+     * @return Realm
+     * @throws RealmNotFoundException
+     */
     public function show(string $realmName) : Realm
     {
         $data = [
-            'headers' => $this->getHeaders()
+            'headers' => $this->keycloakAuth->getDefaultHeaders(),
         ];
 
         $request = $this->client->request(
@@ -114,43 +150,87 @@ class RealmManager
         return $this->deserialize($request->getBody()->getContents());
     }
 
-    public function update(string $realmName)
+    /**
+     * @return Realm
+     * @throws InvalidRealmException
+     * @throws RealmNotFoundException
+     * @throws RealmUpdateException
+     */
+    public function update() : Realm
     {
-        
+        if (empty($this->resource)) {
+            throw new InvalidRealmException();
+        }
+
+        $data = [
+            'headers' => $this->keycloakAuth->getDefaultHeaders(),
+            'json' => $this->resource->toArray()
+        ];
+
+        try {
+            $request = $this->client->request(
+                'PUT',
+                $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->resource->getRealm()),
+                $data
+            );
+
+            if ($request->getStatusCode() !== 204) {
+                throw new RealmUpdateException();
+            }
+        } catch (\Exception $exception) {
+            var_dump($exception->getMessage());
+            throw new RealmUpdateException();
+        }
+
+        return $this->show($this->resource->getRealm());
     }
 
-    public function delete()
+    /**
+     * @param string $realmName
+     * @throws RealmDeleteException
+     */
+    public function delete(string $realmName) : void
     {
-        
+        $data = [
+            'headers' => $this->keycloakAuth->getDefaultHeaders(),
+        ];
+
+        try {
+            $request = $this->client->request(
+                'DELETE',
+                $this->keycloakAdminConfig->getUrl('admin/realms/' . $realmName),
+                $data
+            );
+
+            if ($request->getStatusCode() !== 204) {
+                throw new RealmDeleteException();
+            }
+        } catch (\Exception $exception) {
+            throw new RealmDeleteException();
+        }
+
+        return;
     }
 
+    /**
+     * @return Realm
+     * @throws RealmNotFoundException
+     */
     public function getRealm() : Realm
     {
-        return $this->realm;
+        if (empty($this->resource)) {
+            throw new RealmNotFoundException();
+        }
+
+        return $this->resource;
     }
 
-    public function createFromArray(array $data = []) : self
-    {
-        $this->realm = $this->deserialize(json_encode($data));
-        return $this;
-    }
-
-    public function createFromJson(string $data) : self
-    {
-        $this->realm = $this->deserialize($data);
-        return $this;
-    }
-
+    /**
+     * @param string $data
+     * @return Realm
+     */
     private function deserialize(string $data) : Realm
     {
         return $this->serializer->deserialize($data, Realm::class, 'json');
-    }
-
-    private function getHeaders(): array
-    {
-        return [
-            'Authorization' => 'Bearer ' . $this->keycloakAuth->getAccessToken(),
-            'Content-type'  => 'application/json'
-        ];
     }
 }

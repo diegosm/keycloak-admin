@@ -5,72 +5,135 @@ declare(strict_types=1);
 namespace Tests\Realms;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use KeycloakAdmin\Realms\Realm;
 use KeycloakAdmin\Realms\RealmCollection;
-use PHPUnit\Framework\TestCase;
+use KeycloakAdmin\Realms\RealmManager;
+use Tests\BaseTest;
 use Tests\KeycloakAdminTestFactory;
 
-class RealmTest extends TestCase
+class RealmTest extends BaseTest
 {
     public function testCanSerializeRealm()
     {
-        $keycloakAdmin = $this->createKeycloakAdmin();
+        $client = $this->createStubClient('Clients/list.json');
 
-        $results = $keycloakAdmin->realm()->list();
+        $manager = $this->createRealmManager($client);
+
+        $results = $manager->list();
 
         $this->assertInstanceOf(RealmCollection::class, $results);
 
-        $this->assertEquals(5, count($results->getRealms()));
+        $this->assertEquals(25, count($results->getRealms()));
     }
 
     public function testCanCreateRealmFromArray()
     {
         $config = [
-          'realm' => 'myRealm'
+            'realm' => 'myRealm'
         ];
 
-        $admin = $this->createKeycloakAdmin();
+        $manager = $this->createRealmManager();
 
-        $result = $admin->realm()->createFromArray($config);
+        $result = $manager->createFromArray($config);
+
         $this->assertInstanceOf(Realm::class, $result->getRealm());
-    }
 
-    public function testItCanShowRealm()
-    {
-        $admin = $this->createKeycloakAdmin();
-
-        $result = $admin->realm()->show('master');
-
-        $this->assertInstanceOf(Realm::class, $result);
+        $this->assertEquals('myRealm', $result->getRealm()->getRealm());
     }
 
     public function testCanCreateRealmFromJson()
     {
-        $admin = $this->createKeycloakAdmin();
+        $json = '{"realm": "MyRealm", "notBefore": 1000}';
 
-        $json = '{"realm": "MyRealm"}';
+        $manager = $this->createRealmManager();
 
-        $result = $admin->realm()->createFromJson($json);
+        $result = $manager->createFromJson($json);
+
         $this->assertInstanceOf(Realm::class, $result->getRealm());
+
+        $this->assertEquals(1000, $result->getRealm()->getNotBefore());
     }
 
     public function testItCanSaveRealm()
     {
-        $admin = $this->createKeycloakAdmin();
+        $json = '{"realm": "myExample2", "notBefore": 1000}';
 
-        $json = '{"realm": "myExample2"}';
+        $client = $this->createStubClient('Realms/create.json', 201);
 
-        $result = $admin->realm()->createFromJson($json)->save();
+        $manager = $this->createRealmManager($client);
+
+        $result = $manager->createFromJson($json)->save();
+
+        $this->assertInstanceOf(Realm::class, $result);
+
+        $this->assertEquals(1000, $result->getNotBefore());
+    }
+
+    public function testItCanShowRealm()
+    {
+        $client = $this->createStubClient('Realms/show.json');
+
+        $manager = $this->createRealmManager($client);
+
+        $result = $manager->show('master');
+
         $this->assertInstanceOf(Realm::class, $result);
     }
 
-    private function createKeycloakAdmin()
+    public function testItCanUpdateRealmInfo()
     {
-        return KeycloakAdminTestFactory::create(
-            new Client(),
-            'manager-cli',
-            '3a258032-69f9-402c-b1eb-706f700d652d',
-            'http://keycloak:8080/auth'
+        $json = '{"realm": "abcdef", "notBefore": 1000 }';
+
+        $updateResponse = new Response(
+            204,
+            [],
+            file_get_contents('tests/Stubs/Realms/update.json')
+        );
+
+        $showResponse = new Response(
+            200,
+            [],
+            $json
+        );
+
+        $client = $this->getMockBuilder(Client::class)->getMock();
+        $client->expects($this->at(0))
+            ->method('request')
+            ->willReturn($updateResponse);
+
+        $client->expects($this->at(1))
+            ->method('request')
+            ->willReturn($showResponse);
+
+        $manager = $this->createRealmManager($client);
+
+        $result = $manager->createFromJson($json)->update();
+        $this->assertEquals(1000, $result->getNotBefore());
+    }
+
+    public function testCanDeleteRealm()
+    {
+        $client = $this->createStubClient('', 204);
+
+        $manager = $this->createRealmManager($client);
+
+        $this->assertNull(
+            $manager->delete('realmName')
+        );
+    }
+
+    private function createRealmManager($client = null) : RealmManager
+    {
+        if (null === $client) {
+            $client = $this->createStubClient();
+        }
+
+        return new RealmManager(
+            $client,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth
         );
     }
 }

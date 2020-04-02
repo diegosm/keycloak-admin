@@ -4,45 +4,36 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use KeycloakAdmin\Exceptions\UnauthorizedException;
+use KeycloakAdmin\KeycloakAdmin;
 use KeycloakAdmin\Realms\RealmManager;
-use PHPUnit\Framework\TestCase;
 
-class KeycloakAdminTest extends TestCase
+class KeycloakAdminTest extends BaseTest
 {
     public function testLoginUnauthorized()
     {
         $this->expectException(UnauthorizedException::class);
 
-        $response = new Response(401, [], file_get_contents('tests/stubs/401unauthorized.json'));
+        $client = $this->createStubClient('Admin/unauthorized.json', 401);
 
-        $client = $this->createStub(Client::class);
-        $client->method('request')->willReturn($response);
-
-        $keycloakAdmin = KeycloakAdminTestFactory::create(
-            $client,
-            'admin',
-            'Pa55w0rd',
-            'http://keycloak:8080/auth'
-        );
+        $manager = $this->createAdminManager($client);
     }
 
     public function testCanDefineKeycloakAuthAndReturnRealmManagerClass()
     {
-        $response = new Response(200, [], file_get_contents('tests/stubs/authorizedAccess.json'));
+        $client = $this->createStubClient('Admin/authorized.json', 200);
 
-        $client = $this->createStub(Client::class);
-        $client->method('request')->willReturn($response);
+        $manager = $this->createAdminManager($client);
 
-        $keycloakAdmin= KeycloakAdminTestFactory::create(
-                    $client,
-            'admin',
-            'Pa55w0rd',
-            'http://keycloak:8080/auth'
+        $this->assertInstanceOf(RealmManager::class, $manager->realm());
+    }
+
+    private function createAdminManager($client) : KeycloakAdmin
+    {
+        return new KeycloakAdmin(
+            $client,
+            $this->keycloakAdminConfig,
+            $this->serializer
         );
-
-        $this->assertInstanceOf(RealmManager::class, $keycloakAdmin->realm());
     }
 }

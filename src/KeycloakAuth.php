@@ -101,5 +101,16 @@ class KeycloakAuth
         return $this->scope;
     }
 
-
+    /**
+     * Set default headers with authorization bearer access token
+     *
+     * @return array
+     */
+    public function getDefaultHeaders() : array
+    {
+        return [
+            'Authorization' => 'Bearer ' . $this->getAccessToken(),
+            'Content-type'  => 'application/json'
+        ];
+    }
 }

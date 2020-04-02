@@ -7,6 +7,7 @@ namespace KeycloakAdmin;
 use GuzzleHttp\Client;
 
 use JMS\Serializer\SerializerInterface;
+use KeycloakAdmin\Clients\ClientManager;
 use KeycloakAdmin\Exceptions\UnauthorizedException;
 use KeycloakAdmin\Realms\RealmManager;
 
@@ -61,6 +62,7 @@ class KeycloakAdmin
                     KeycloakAuth::class,
                     'json'
                 );
+
             } else {
                 throw new UnauthorizedException();
             }
@@ -79,8 +81,14 @@ class KeycloakAdmin
         );
     }
 
-    public function client()
+    public function client(string $realmName) : ClientManager
     {
-
+        return new ClientManager(
+            $this->client,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $realmName
+        );
     }
 }
