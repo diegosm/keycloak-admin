@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Exceptions;
+namespace KeycloakAdmin\Keycloak\Exceptions;
 
 class UnauthorizedException extends \Exception
 {

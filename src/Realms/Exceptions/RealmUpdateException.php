@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Exceptions;
+namespace KeycloakAdmin\Realms\Exceptions;
 
 class RealmUpdateException extends \Exception
 {

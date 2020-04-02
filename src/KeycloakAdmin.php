@@ -8,7 +8,9 @@ use GuzzleHttp\Client;
 
 use JMS\Serializer\SerializerInterface;
 use KeycloakAdmin\Clients\ClientManager;
-use KeycloakAdmin\Exceptions\UnauthorizedException;
+use KeycloakAdmin\Keycloak\Exceptions\UnauthorizedException;
+use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
+use KeycloakAdmin\Keycloak\KeycloakAuth;
 use KeycloakAdmin\Realms\RealmManager;
 
 class KeycloakAdmin

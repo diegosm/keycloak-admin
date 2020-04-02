@@ -8,8 +8,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use GuzzleHttp\Client as ClientHTTP;
 use GuzzleHttp\Psr7\Response;
 use JMS\Serializer\SerializerInterface;
-use KeycloakAdmin\KeycloakAdminConfig;
-use KeycloakAdmin\KeycloakAuth;
+use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
+use KeycloakAdmin\Keycloak\KeycloakAuth;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseTest extends TestCase

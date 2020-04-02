@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use KeycloakAdmin\Exceptions\UnauthorizedException;
+use KeycloakAdmin\Keycloak\Exceptions\UnauthorizedException;
 use KeycloakAdmin\KeycloakAdmin;
 use KeycloakAdmin\Realms\RealmManager;
 
@@ -14,14 +14,14 @@ class KeycloakAdminTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $client = $this->createStubClient('Admin/unauthorized.json', 401);
+        $client = $this->createStubClient('Keycloak/unauthorized.json', 401);
 
         $manager = $this->createAdminManager($client);
     }
 
     public function testCanDefineKeycloakAuthAndReturnRealmManagerClass()
     {
-        $client = $this->createStubClient('Admin/authorized.json', 200);
+        $client = $this->createStubClient('Keycloak/authorized.json', 200);
 
         $manager = $this->createAdminManager($client);
 

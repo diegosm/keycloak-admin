@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin;
+namespace KeycloakAdmin\Keycloak;
 
 class KeycloakAdminConfig
 {

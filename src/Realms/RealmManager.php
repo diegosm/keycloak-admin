@@ -6,14 +6,14 @@ namespace KeycloakAdmin\Realms;
 
 use GuzzleHttp\Client;
 use JMS\Serializer\SerializerInterface;
-use KeycloakAdmin\Exceptions\InvalidRealmException;
-use KeycloakAdmin\Exceptions\InvalidRequestException;
-use KeycloakAdmin\Exceptions\RealmDeleteException;
-use KeycloakAdmin\Exceptions\RealmNotFoundException;
-use KeycloakAdmin\Exceptions\RealmSaveErrorException;
-use KeycloakAdmin\Exceptions\RealmUpdateException;
-use KeycloakAdmin\KeycloakAdminConfig;
-use KeycloakAdmin\KeycloakAuth;
+use KeycloakAdmin\Realms\Exceptions\RealmInvalidException;
+use KeycloakAdmin\Realms\Exceptions\RequestInvalidException;
+use KeycloakAdmin\Realms\Exceptions\RealmDeleteException;
+use KeycloakAdmin\Realms\Exceptions\RealmNotFoundException;
+use KeycloakAdmin\Realms\Exceptions\RealmSaveException;
+use KeycloakAdmin\Realms\Exceptions\RealmUpdateException;
+use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
+use KeycloakAdmin\Keycloak\KeycloakAuth;
 use KeycloakAdmin\Traits\CreatableTrait;
 
 /**
@@ -68,7 +68,7 @@ class RealmManager
 
     /**
      * @return RealmCollection
-     * @throws InvalidRequestException
+     * @throws RequestInvalidException
      */
     public function list() : RealmCollection
     {
@@ -83,7 +83,7 @@ class RealmManager
         );
 
         if ($request->getStatusCode() !== 200) {
-            throw new InvalidRequestException();
+            throw new RequestInvalidException();
         }
 
         return $this->serializer->deserialize(
@@ -95,13 +95,13 @@ class RealmManager
 
     /**
      * @return Realm
-     * @throws InvalidRealmException
-     * @throws RealmSaveErrorException
+     * @throws RealmInvalidException
+     * @throws RealmSaveException
      */
     public function save() : Realm
     {
         if (empty($this->resource)) {
-            throw new InvalidRealmException();
+            throw new RealmInvalidException();
         }
 
         $data = [
@@ -117,10 +117,10 @@ class RealmManager
             );
 
             if ($request->getStatusCode() !== 201) {
-                throw new RealmSaveErrorException();
+                throw new RealmSaveException();
             }
         } catch (\Exception $exception) {
-            throw new RealmSaveErrorException();
+            throw new RealmSaveException();
         }
 
         return $this->resource;
@@ -152,14 +152,14 @@ class RealmManager
 
     /**
      * @return Realm
-     * @throws InvalidRealmException
+     * @throws RealmInvalidException
      * @throws RealmNotFoundException
      * @throws RealmUpdateException
      */
     public function update() : Realm
     {
         if (empty($this->resource)) {
-            throw new InvalidRealmException();
+            throw new RealmInvalidException();
         }
 
         $data = [

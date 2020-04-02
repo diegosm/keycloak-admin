@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Exceptions;
+namespace KeycloakAdmin\Realms\Exceptions;
 
-class RealmSaveErrorException extends \Exception
+class RealmSaveException extends \Exception
 {
     protected $message = 'Error when trying to save realm.';
 }

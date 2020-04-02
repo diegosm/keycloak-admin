@@ -6,9 +6,13 @@ namespace KeycloakAdmin\Realms;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use KeycloakAdmin\Traits\ArrayableTrait;
+use KeycloakAdmin\Traits\JsonableTrait;
 
 class Realm implements \JsonSerializable
 {
+    use JsonableTrait, ArrayableTrait;
+
     /**
      * @Type("string")
      */
@@ -2019,19 +2023,5 @@ class Realm implements \JsonSerializable
     {
         $this->userManagedAccessAllowed = $userManagedAccessAllowed;
         return $this;
-    }
-
-    public function toArray()
-    {
-        return array_filter(get_object_vars($this), function ($item) {
-            return null !== $item;
-        });
-    }
-
-    public function jsonSerialize()
-    {
-        return json_encode(array_filter(get_object_vars($this), function ($item) {
-            return null !== $item;
-        }));
     }
 }

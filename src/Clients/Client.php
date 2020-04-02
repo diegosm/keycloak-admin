@@ -6,9 +6,13 @@ namespace KeycloakAdmin\Clients;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use KeycloakAdmin\Traits\ArrayableTrait;
+use KeycloakAdmin\Traits\JsonableTrait;
 
-class Client
+class Client implements \JsonSerializable
 {
+    use JsonableTrait, ArrayableTrait;
+
     /**
      * @Type("string")
      */
