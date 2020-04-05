@@ -18,7 +18,8 @@ $keycloakAdmin = KeycloakAdminFactory::create(
 To do list (Not ordered by priority)
 ------
 1. Use parameters to search users on list method.
-2. Review and make tests for all exceptions.
-3. Make realm extra endpoints (i.e. clear sessions).
-4. Make documentation.
-5. Change User access from array to a Class.
+2. Create role composites
+3. Review and make tests for all exceptions.
+4. Make realm extra endpoints (i.e. clear sessions).
+5. Make documentation.
+6. Change User access from array to a Class.
