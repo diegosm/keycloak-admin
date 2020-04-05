@@ -1,0 +1,29 @@
+{
+  "id": "fb2f0f35-ca93-48dc-96fc-4a29c8f2f734",
+  "createdTimestamp": 1585557706553,
+  "username": "thyagotc@gmail.com",
+  "enabled": true,
+  "totp": false,
+  "emailVerified": true,
+  "firstName": "Thyago",
+  "lastName": "Clemente",
+  "email": "thyagotc@gmail.com",
+  "attributes": {
+    "account_permissions": [
+      "[{     \"account\": 123,     \"permission\" : \"account_user\"   },      {     \"account\": 12345,     \"permission\" : \"account_admin\"   }]"
+    ],
+    "account_id": [
+      "123123"
+    ]
+  },
+  "disableableCredentialTypes": [],
+  "requiredActions": [],
+  "notBefore": 0,
+  "access": {
+    "manageGroupMembership": true,
+    "view": true,
+    "mapRoles": true,
+    "impersonate": true,
+    "manage": true
+  }
+}

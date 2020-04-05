@@ -6,5 +6,5 @@ namespace KeycloakAdmin\Realms\Exceptions;
 
 class RealmNotFoundException extends \Exception
 {
-    protected $message = 'Realm not found exception.';
+    protected $message = 'Realm not found.';
 }

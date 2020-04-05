@@ -197,10 +197,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $id
+     * @return Client
      */
-    public function setId($id): void
+    public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -213,10 +215,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $clientId
+     * @return Client
      */
-    public function setClientId($clientId): void
+    public function setClientId($clientId)
     {
         $this->clientId = $clientId;
+        return $this;
     }
 
     /**
@@ -229,10 +233,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $name
+     * @return Client
      */
-    public function setName($name): void
+    public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -245,10 +251,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $rootUrl
+     * @return Client
      */
-    public function setRootUrl($rootUrl): void
+    public function setRootUrl($rootUrl)
     {
         $this->rootUrl = $rootUrl;
+        return $this;
     }
 
     /**
@@ -261,10 +269,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $baseUrl
+     * @return Client
      */
-    public function setBaseUrl($baseUrl): void
+    public function setBaseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;
+        return $this;
     }
 
     /**
@@ -277,10 +287,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $surrogateAuthRequired
+     * @return Client
      */
-    public function setSurrogateAuthRequired($surrogateAuthRequired): void
+    public function setSurrogateAuthRequired($surrogateAuthRequired)
     {
         $this->surrogateAuthRequired = $surrogateAuthRequired;
+        return $this;
     }
 
     /**
@@ -293,10 +305,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $enabled
+     * @return Client
      */
-    public function setEnabled($enabled): void
+    public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+        return $this;
     }
 
     /**
@@ -309,10 +323,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $alwaysDisplayInConsole
+     * @return Client
      */
-    public function setAlwaysDisplayInConsole($alwaysDisplayInConsole): void
+    public function setAlwaysDisplayInConsole($alwaysDisplayInConsole)
     {
         $this->alwaysDisplayInConsole = $alwaysDisplayInConsole;
+        return $this;
     }
 
     /**
@@ -325,10 +341,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $clientAuthenticatorType
+     * @return Client
      */
-    public function setClientAuthenticatorType($clientAuthenticatorType): void
+    public function setClientAuthenticatorType($clientAuthenticatorType)
     {
         $this->clientAuthenticatorType = $clientAuthenticatorType;
+        return $this;
     }
 
     /**
@@ -341,10 +359,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $defaultRoles
+     * @return Client
      */
-    public function setDefaultRoles($defaultRoles): void
+    public function setDefaultRoles($defaultRoles)
     {
         $this->defaultRoles = $defaultRoles;
+        return $this;
     }
 
     /**
@@ -357,10 +377,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $redirectUris
+     * @return Client
      */
-    public function setRedirectUris($redirectUris): void
+    public function setRedirectUris($redirectUris)
     {
         $this->redirectUris = $redirectUris;
+        return $this;
     }
 
     /**
@@ -373,10 +395,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $webOrigins
+     * @return Client
      */
-    public function setWebOrigins($webOrigins): void
+    public function setWebOrigins($webOrigins)
     {
         $this->webOrigins = $webOrigins;
+        return $this;
     }
 
     /**
@@ -389,10 +413,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $notBefore
+     * @return Client
      */
-    public function setNotBefore($notBefore): void
+    public function setNotBefore($notBefore)
     {
         $this->notBefore = $notBefore;
+        return $this;
     }
 
     /**
@@ -405,10 +431,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $bearerOnly
+     * @return Client
      */
-    public function setBearerOnly($bearerOnly): void
+    public function setBearerOnly($bearerOnly)
     {
         $this->bearerOnly = $bearerOnly;
+        return $this;
     }
 
     /**
@@ -421,10 +449,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $consentRequired
+     * @return Client
      */
-    public function setConsentRequired($consentRequired): void
+    public function setConsentRequired($consentRequired)
     {
         $this->consentRequired = $consentRequired;
+        return $this;
     }
 
     /**
@@ -437,10 +467,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $standardFlowEnabled
+     * @return Client
      */
-    public function setStandardFlowEnabled($standardFlowEnabled): void
+    public function setStandardFlowEnabled($standardFlowEnabled)
     {
         $this->standardFlowEnabled = $standardFlowEnabled;
+        return $this;
     }
 
     /**
@@ -453,10 +485,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $implicitFlowEnabled
+     * @return Client
      */
-    public function setImplicitFlowEnabled($implicitFlowEnabled): void
+    public function setImplicitFlowEnabled($implicitFlowEnabled)
     {
         $this->implicitFlowEnabled = $implicitFlowEnabled;
+        return $this;
     }
 
     /**
@@ -469,10 +503,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $directAccessGrantsEnabled
+     * @return Client
      */
-    public function setDirectAccessGrantsEnabled($directAccessGrantsEnabled): void
+    public function setDirectAccessGrantsEnabled($directAccessGrantsEnabled)
     {
         $this->directAccessGrantsEnabled = $directAccessGrantsEnabled;
+        return $this;
     }
 
     /**
@@ -485,10 +521,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $serviceAccountsEnabled
+     * @return Client
      */
-    public function setServiceAccountsEnabled($serviceAccountsEnabled): void
+    public function setServiceAccountsEnabled($serviceAccountsEnabled)
     {
         $this->serviceAccountsEnabled = $serviceAccountsEnabled;
+        return $this;
     }
 
     /**
@@ -501,10 +539,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $publicClient
+     * @return Client
      */
-    public function setPublicClient($publicClient): void
+    public function setPublicClient($publicClient)
     {
         $this->publicClient = $publicClient;
+        return $this;
     }
 
     /**
@@ -517,10 +557,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $frontchannelLogout
+     * @return Client
      */
-    public function setFrontchannelLogout($frontchannelLogout): void
+    public function setFrontchannelLogout($frontchannelLogout)
     {
         $this->frontchannelLogout = $frontchannelLogout;
+        return $this;
     }
 
     /**
@@ -533,10 +575,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $protocol
+     * @return Client
      */
-    public function setProtocol($protocol): void
+    public function setProtocol($protocol)
     {
         $this->protocol = $protocol;
+        return $this;
     }
 
     /**
@@ -549,10 +593,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $attributes
+     * @return Client
      */
-    public function setAttributes($attributes): void
+    public function setAttributes($attributes)
     {
         $this->attributes = $attributes;
+        return $this;
     }
 
     /**
@@ -565,10 +611,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $authenticationFlowBindingOverrides
+     * @return Client
      */
-    public function setAuthenticationFlowBindingOverrides($authenticationFlowBindingOverrides): void
+    public function setAuthenticationFlowBindingOverrides($authenticationFlowBindingOverrides)
     {
         $this->authenticationFlowBindingOverrides = $authenticationFlowBindingOverrides;
+        return $this;
     }
 
     /**
@@ -581,10 +629,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $fullScopeAllowed
+     * @return Client
      */
-    public function setFullScopeAllowed($fullScopeAllowed): void
+    public function setFullScopeAllowed($fullScopeAllowed)
     {
         $this->fullScopeAllowed = $fullScopeAllowed;
+        return $this;
     }
 
     /**
@@ -597,10 +647,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $nodeReRegistrationTimeout
+     * @return Client
      */
-    public function setNodeReRegistrationTimeout($nodeReRegistrationTimeout): void
+    public function setNodeReRegistrationTimeout($nodeReRegistrationTimeout)
     {
         $this->nodeReRegistrationTimeout = $nodeReRegistrationTimeout;
+        return $this;
     }
 
     /**
@@ -613,10 +665,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $protocolMappers
+     * @return Client
      */
-    public function setProtocolMappers($protocolMappers): void
+    public function setProtocolMappers($protocolMappers)
     {
         $this->protocolMappers = $protocolMappers;
+        return $this;
     }
 
     /**
@@ -629,10 +683,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $defaultClientScopes
+     * @return Client
      */
-    public function setDefaultClientScopes($defaultClientScopes): void
+    public function setDefaultClientScopes($defaultClientScopes)
     {
         $this->defaultClientScopes = $defaultClientScopes;
+        return $this;
     }
 
     /**
@@ -645,10 +701,12 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $optionalClientScopes
+     * @return Client
      */
-    public function setOptionalClientScopes($optionalClientScopes): void
+    public function setOptionalClientScopes($optionalClientScopes)
     {
         $this->optionalClientScopes = $optionalClientScopes;
+        return $this;
     }
 
     /**
@@ -661,9 +719,11 @@ class Client implements \JsonSerializable
 
     /**
      * @param mixed $access
+     * @return Client
      */
-    public function setAccess($access): void
+    public function setAccess($access)
     {
         $this->access = $access;
+        return $this;
     }
 }

@@ -12,6 +12,8 @@ use KeycloakAdmin\Keycloak\Exceptions\UnauthorizedException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
 use KeycloakAdmin\Realms\RealmManager;
+use KeycloakAdmin\Roles\RoleManager;
+use KeycloakAdmin\Users\UserManager;
 
 class KeycloakAdmin
 {
@@ -85,6 +87,38 @@ class KeycloakAdmin
     public function client(string $realmName) : ClientManager
     {
         return new ClientManager(
+            $this->client,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $realmName
+        );
+    }
+
+    /**
+     * @param string $realmName
+     * @param string $idOfClient
+     * @return RoleManager
+     */
+    public function role(string $realmName, string $idOfClient) : RoleManager
+    {
+        return new RoleManager(
+            $this->client,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $realmName,
+            $idOfClient
+        );
+    }
+
+    /**
+     * @param string $realmName
+     * @return UserManager
+     */
+    public function user(string $realmName) : UserManager
+    {
+        return new UserManager(
             $this->client,
             $this->keycloakAdminConfig,
             $this->serializer,

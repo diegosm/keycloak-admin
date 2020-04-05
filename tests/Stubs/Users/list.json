@@ -1,0 +1,73 @@
+[
+  {
+    "id": "e5d76032-f066-4110-816f-a1b8b26e2eb1",
+    "createdTimestamp": 1585564692866,
+    "username": "diego1",
+    "enabled": true,
+    "totp": false,
+    "emailVerified": false,
+    "firstName": "Diego",
+    "lastName": "Mota",
+    "email": "email@gmail.com",
+    "disableableCredentialTypes": [],
+    "requiredActions": [],
+    "notBefore": 0,
+    "access": {
+      "manageGroupMembership": true,
+      "view": true,
+      "mapRoles": true,
+      "impersonate": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "fb2f0f35-ca93-48dc-96fc-4a29c8f2f734",
+    "createdTimestamp": 1585557706553,
+    "username": "tiago@email.com",
+    "enabled": true,
+    "totp": false,
+    "emailVerified": true,
+    "firstName": "Thyago",
+    "lastName": "Clemente",
+    "email": "tiago@email.com",
+    "attributes": {
+      "account_permissions": [
+        "[{     \"account\": 123,     \"permission\" : \"account_user\"   },      {     \"account\": 12345,     \"permission\" : \"account_admin\"   }]"
+      ],
+      "account_id": [
+        "123123"
+      ]
+    },
+    "disableableCredentialTypes": [],
+    "requiredActions": [],
+    "notBefore": 0,
+    "access": {
+      "manageGroupMembership": true,
+      "view": true,
+      "mapRoles": true,
+      "impersonate": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "fdca49c1-80c8-4492-9c97-e808202f87dd",
+    "createdTimestamp": 1584958301559,
+    "username": "user@email.com",
+    "enabled": true,
+    "totp": false,
+    "emailVerified": false,
+    "firstName": "first",
+    "lastName": "name",
+    "email": "user@email.com",
+    "disableableCredentialTypes": [],
+    "requiredActions": [],
+    "notBefore": 0,
+    "access": {
+      "manageGroupMembership": true,
+      "view": true,
+      "mapRoles": true,
+      "impersonate": true,
+      "manage": true
+    }
+  }
+]

@@ -6,5 +6,5 @@ namespace KeycloakAdmin\Clients\Exceptions;
 
 class ClientNotFoundException extends \Exception
 {
-    protected $message = 'Clients not found exception.';
+    protected $message = 'Client not found.';
 }
