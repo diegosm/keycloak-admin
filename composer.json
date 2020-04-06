@@ -1,5 +1,5 @@
 {
-    "name": "diegomota/keycloak-admin",
+    "name": "diegosm/keycloak-admin",
     "description": "PHP Library for Keycloak REST API management",
     "type": "library",
     "require": {

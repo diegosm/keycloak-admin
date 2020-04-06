@@ -1,6 +1,11 @@
 # keycloak-admin
 PHP Library for Keycloak Rest API management
 
+## Installation
+```composer log
+composer require diegosm/keycloak-admin
+```
+
 ## Configure
 First of all create a client on master realm, with name like `manager-cli` of type `confidential` and need to enable Service Accounts.
 You will use to manage your realm, and log in with client_credential grant type.
