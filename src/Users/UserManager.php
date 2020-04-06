@@ -12,6 +12,7 @@ use KeycloakAdmin\Keycloak\KeycloakAuth;
 use KeycloakAdmin\Traits\CreatableTrait;
 use KeycloakAdmin\Users\Exceptions\UserDeleteException;
 use KeycloakAdmin\Users\Exceptions\UserInvalidException;
+use KeycloakAdmin\Users\Exceptions\UserInvalidLogoutException;
 use KeycloakAdmin\Users\Exceptions\UserNotFoundException;
 use KeycloakAdmin\Users\Exceptions\UserSaveException;
 use KeycloakAdmin\Users\Exceptions\UserUpdateException;
@@ -221,6 +222,53 @@ class UserManager
         return;
     }
 
+    /**
+     * @param string $id
+     * @return UserResetPasswordManager
+     */
+    public function resetPassword(string  $id) : UserResetPasswordManager
+    {
+        return new UserResetPasswordManager(
+            $this->client,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $this->realmName,
+            $id
+        );
+    }
+
+    /**
+     * @param string $id
+     * @throws UserInvalidLogoutException
+     */
+    public function logout(string  $id) : void
+    {
+        $data = [
+            'headers' => $this->keycloakAuth->getDefaultHeaders(),
+        ];
+
+        try {
+            $request = $this->client->request(
+                'POST',
+                $this->getBaseUrl($id . '/logout'),
+                $data
+            );
+
+            if ($request->getStatusCode() !== 204) {
+                throw new UserInvalidLogoutException();
+            }
+        } catch (\Exception $exception) {
+            throw new UserInvalidLogoutException();
+        }
+
+        return;
+    }
+
+    /**
+     * @return User
+     * @throws UserNotFoundException
+     */
     public function getUser() : User
     {
         if (empty($this->resource)) {
@@ -230,6 +278,10 @@ class UserManager
         return $this->resource;
     }
 
+    /**
+     * @param string $path
+     * @return string
+     */
     private function getBaseUrl(string $path = '') : string
     {
         return $this->keycloakAdminConfig->getUrl(
@@ -237,6 +289,11 @@ class UserManager
         );
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     * @throws \Exception
+     */
     private function validator(array $data = []) : bool
     {
         if (empty($data['username'])) {
@@ -246,6 +303,10 @@ class UserManager
         return true;
     }
 
+    /**
+     * @param string $data
+     * @return User
+     */
     private function deserialize(string $data) : User
     {
         return $this->serializer->deserialize($data, User::class, 'json');

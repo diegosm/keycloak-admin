@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace KeycloakAdmin\Users;
 
-use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use KeycloakAdmin\Traits\ArrayableTrait;

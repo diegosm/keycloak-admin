@@ -1,6 +1,7 @@
 {
     "name": "diegosm/keycloak-admin",
     "description": "PHP Library for Keycloak REST API management",
+    "license": "MIT",
     "type": "library",
     "require": {
         "guzzlehttp/guzzle": "^6.5",

@@ -6,9 +6,13 @@ namespace KeycloakAdmin\Users;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use KeycloakAdmin\Traits\ArrayableTrait;
+use KeycloakAdmin\Traits\JsonableTrait;
 
 class CredentialRepresentation
 {
+    use JsonableTrait, ArrayableTrait;
+
     /**
      * @Type("string")
      */
