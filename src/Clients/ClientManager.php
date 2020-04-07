@@ -182,10 +182,10 @@ class ClientManager
     }
 
     /**
-     * @param string $clientId
+     * @param string $idOfClient
      * @throws ClientDeleteException
      */
-    public function delete(string $clientId) : void
+    public function delete(string $idOfClient) : void
     {
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders(),
@@ -195,7 +195,7 @@ class ClientManager
             $request = $this->clientHttp->request(
                 'DELETE',
                 $this->keycloakAdminConfig->getUrl(
-                    'admin/realms/' . $this->realmName . '/clients/' . $clientId
+                    'admin/realms/' . $this->realmName . '/clients/' . $idOfClient
                 ),
                 $data
             );
