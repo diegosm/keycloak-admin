@@ -47,7 +47,7 @@ class User implements \JsonSerializable
     private $createdTimestamp;
 
     /**
-     * @Type("array<KeycloackAdmin\Users\CredentialRepresentation>")
+     * @Type("array<KeycloackAdmin\Credentials\CredentialRepresentation>")
      */
     private $credentials;
 

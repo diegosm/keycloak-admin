@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Users;
+namespace KeycloakAdmin\Credentials;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;

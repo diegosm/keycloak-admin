@@ -11,6 +11,7 @@ use KeycloakAdmin\Clients\Exceptions\ClientInvalidException;
 use KeycloakAdmin\Clients\Exceptions\ClientNotFoundException;
 use KeycloakAdmin\Clients\Exceptions\ClientSaveException;
 use KeycloakAdmin\Clients\Exceptions\ClientUpdateException;
+use KeycloakAdmin\Credentials\CredentialRepresentation;
 use KeycloakAdmin\Keycloak\Exceptions\RequestInvalidException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
@@ -208,6 +209,31 @@ class ClientManager
         }
 
         return;
+    }
+
+    public function getClientCredentials(string $idOfClient) : CredentialRepresentation
+    {
+        $data = [
+            'headers' => $this->keycloakAuth->getDefaultHeaders()
+        ];
+
+        $request = $this->clientHttp->request(
+            'GET',
+            $this->keycloakAdminConfig->getUrl(
+                'admin/realms/' . $this->realmName . '/clients/' . $idOfClient . '/client-secret'
+            ),
+            $data
+        );
+
+        if ($request->getStatusCode() !== 200) {
+            throw new RequestInvalidException();
+        }
+
+        return $this->serializer->deserialize(
+            $request->getBody()->getContents(),
+            CredentialRepresentation::class,
+            'json'
+        );
     }
 
     /**

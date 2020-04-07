@@ -6,6 +6,7 @@ namespace KeycloakAdmin\Users;
 
 use GuzzleHttp\Client;
 use JMS\Serializer\SerializerInterface;
+use KeycloakAdmin\Credentials\CredentialRepresentation;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
 use KeycloakAdmin\Traits\CreatableTrait;
