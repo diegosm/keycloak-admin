@@ -165,7 +165,7 @@ class Client implements \JsonSerializable
     private $nodeReRegistrationTimeout;
 
     /**
-     * @Type("array<KeycloakAdmin\Clients\ProtocolMapper>")
+     * @Type("array<KeycloakAdmin\ProtocolMappers\ProtocolMapper>")
      * @SerializedName("protocolMappers")
      */
     private $protocolMappers;

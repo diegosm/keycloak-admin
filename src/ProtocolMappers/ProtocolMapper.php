@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Clients;
+namespace KeycloakAdmin\ProtocolMappers;
 
 use JMS\Serializer\Annotation\Type;
 

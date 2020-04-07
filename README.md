@@ -28,3 +28,13 @@ To do list (Not ordered by priority)
 4. Make realm extra endpoints (i.e. clear sessions).
 5. Make documentation.
 6. Change User access from array to a Class.
+7. Test Realm roles Representation
+
+Create representation classes
+____
+1. AuthenticationFlowRepresentation (could be used on realm)
+2. AuthenticatorConfigRepresentation (could be used on realm)
+3. ClientScopeRepresentation (could be used on realm)
+4. IdentityProviderMapperRepresentation (could be used on realm)
+5. UserFederationMappers (could be used on realm)
+____

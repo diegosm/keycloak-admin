@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace KeycloakAdmin\Realms;
 
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Inline;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use KeycloakAdmin\Traits\ArrayableTrait;
@@ -19,27 +21,22 @@ class Realm implements \JsonSerializable
     private $id;
 
     /**
-     * @Type("string")
+     * @Type("integer")
+     * @SerializedName("accessCodeLifespan")
      */
-    private $realm;
+    private $accessCodeLifespan;
 
     /**
      * @Type("integer")
-     * @SerializedName("notBefore")
+     * @SerializedName("accessCodeLifespanLogin")
      */
-    private $notBefore;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("revokeRefreshToken")
-     */
-    private $revokeRefreshToken;
+    private $accessCodeLifespanLogin;
 
     /**
      * @Type("integer")
-     * @SerializedName("revokeRefreshToken")
+     * @SerializedName("accessCodeLifespanUserAction")
      */
-    private $refreshTokenMaxReuse;
+    private $accessCodeLifespanUserAction;
 
     /**
      * @Type("integer")
@@ -54,64 +51,10 @@ class Realm implements \JsonSerializable
     private $accessTokenLifespanForImplicitFlow;
 
     /**
-     * @Type("integer")
-     * @SerializedName("ssoSessionIdleTimeout")
+     * @Type("string")
+     * @SerializedName("accountTheme")
      */
-    private $ssoSessionIdleTimeout;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("ssoSessionMaxLifespan")
-     */
-    private $ssoSessionMaxLifespan;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("ssoSessionIdleTimeoutRememberMe")
-     */
-    private $ssoSessionIdleTimeoutRememberMe;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("ssoSessionMaxLifespanRememberMe")
-     */
-    private $ssoSessionMaxLifespanRememberMe;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("offlineSessionIdleTimeout")
-     */
-    private $offlineSessionIdleTimeout;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("offlineSessionMaxLifespanEnabled")
-     */
-    private $offlineSessionMaxLifespanEnabled;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("offlineSessionMaxLifespan")
-     */
-    private $offlineSessionMaxLifespan;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("accessCodeLifespan")
-     */
-    private $accessCodeLifespan;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("accessCodeLifespanUserAction")
-     */
-    private $accessCodeLifespanUserAction;
-
-    /**
-     * @Type("integer")
-     * @SerializedName("accessCodeLifespanLogin")
-     */
-    private $accessCodeLifespanLogin;
+    private $accountTheme;
 
     /**
      * @Type("integer")
@@ -127,61 +70,50 @@ class Realm implements \JsonSerializable
 
     /**
      * @Type("boolean")
+     * @SerializedName("adminEventsDetailsEnabled")
      */
-    private $enabled;
+    private $adminEventsDetailsEnabled;
+
+    /**
+     * @Type("boolean")
+     * @SerializedName("adminEventsEnabled")
+     */
+    private $adminEventsEnabled;
 
     /**
      * @Type("string")
-     * @SerializedName("sslRequired")
+     * @SerializedName("adminTheme")
      */
-    private $sslRequired;
+    private $adminTheme;
 
     /**
-     * @Type("boolean")
-     * @SerializedName("registrationAllowed")
+     * @Type("array")
      */
-    private $registrationAllowed;
+    private $attributes;
 
     /**
-     * @Type("boolean")
-     * @SerializedName("registrationEmailAsUsername")
+     * @Type("array")
+     * @SerializedName("authenticationFlows")
      */
-    private $registrationEmailAsUsername;
+    private $authenticationFlows;
 
     /**
-     * @Type("boolean")
-     * @SerializedName("rememberMe")
+     * @Type("array")
+     * @SerializedName("authenticatorConfig")
      */
-    private $rememberMe;
+    private $authenticatorConfig;
 
     /**
-     * @Type("boolean")
-     * @SerializedName("verifyEmail")
+     * @Type("string")
+     * @SerializedName("browserFlow")
      */
-    private $verifyEmail;
+    private $browserFlow;
 
     /**
-     * @Type("boolean")
-     * @SerializedName("loginWithEmailAllowed")
+     * @Type("array")
+     * @SerializedName("browserSecurityHeaders")
      */
-    private $loginWithEmailAllowed;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("duplicateEmailsAllowed")
-     */
-    private $duplicateEmailsAllowed;
-    /**
-     * @Type("boolean")
-     * @SerializedName("resetPasswordAllowed")
-     */
-    private $resetPasswordAllowed;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("editUsernameAllowed")
-     */
-    private $editUsernameAllowed;
+    private $browserSecurityHeaders;
 
     /**
      * @Type("boolean")
@@ -190,10 +122,196 @@ class Realm implements \JsonSerializable
     private $bruteForceProtected;
 
     /**
-     * @Type("boolean")
-     * @SerializedName("permanentLockout")
+     * @Type("string")
+     * @SerializedName("clientAuthenticationFlow")
      */
-    private $permanentLockout;
+    private $clientAuthenticationFlow;
+
+    /**
+     * @Type("array")
+     * @SerializedName("clientScopeMappings")
+     */
+    private $clientScopeMappings;
+
+    /**
+     * @Type("array")
+     * @SerializedName("clientScopes")
+     */
+    private $clientScopes;
+
+    /**
+     * @Type("array<KeycloakAdmin\Clients\Client>")
+     */
+    private $clients;
+
+    /**
+     * @Type("array")
+     */
+    private $components;
+
+    /**
+     * @Type("array")
+     * @SerializedName("defaultDefaultClientScopes")
+     */
+    private $defaultDefaultClientScopes;
+
+    /**
+     * @Type("defaultGroups")
+     * @SerializedName("defaultGroups")
+     */
+    private $defaultGroups;
+
+    /**
+     * @Type("string")
+     * @SerializedName("defaultLocale")
+     */
+    private $defaultLocale;
+
+    /**
+     * @Type("array")
+     * @SerializedName("defaultOptionalClientScopes")
+     */
+    private $defaultOptionalClientScopes;
+
+    /**
+     * @Type("array")
+     * @SerializedName("defaultRoles")
+     */
+    private $defaultRoles;
+
+    /**
+     * @Type("string")
+     * @SerializedName("defaultSignatureAlgorithm")
+     */
+    private $defaultSignatureAlgorithm;
+
+    /**
+     * @Type("string")
+     * @SerializedName("directGrantFlow")
+     */
+    private $directGrantFlow;
+
+    /**
+     * @Type("string")
+     * @SerializedName("displayName")
+     */
+    private $displayName;
+
+    /**
+     * @Type("string")
+     * @SerializedName("displayNameHtml")
+     */
+    private $displayNameHtml;
+
+    /**
+     * @Type("string")
+     * @SerializedName("dockerAuthenticationFlow")
+     */
+    private $dockerAuthenticationFlow;
+
+    /**
+     * @Type("boolean")
+     * @SerializedName("duplicateEmailsAllowed")
+     */
+    private $duplicateEmailsAllowed;
+
+    /**
+     * @Type("boolean")
+     * @SerializedName("editUsernameAllowed")
+     */
+    private $editUsernameAllowed;
+
+    /**
+     * @Type("string")
+     * @SerializedName("emailTheme")
+     */
+    private $emailTheme;
+
+    /**
+     * @Type("boolean")
+     */
+    private $enabled;
+
+    /**
+     * @Type("array")
+     */
+    private $enabledEventTypes;
+
+    /**
+     * @Type("boolean")
+     * @SerializedName("eventsEnabled")
+     */
+    private $eventsEnabled;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("eventsExpiration")
+     */
+    private $eventsExpiration;
+
+    /**
+     * @Type("array")
+     * @SerializedName("eventsListeners")
+     */
+    private $eventsListeners;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("failureFactor")
+     */
+    private $failureFactor;
+
+    /**
+     * @Type("array<KeycloakAdmin\Users\User>")
+     * @SerializedName("federatedUsers")
+     */
+    private $federatedUsers;
+
+    /**
+     * @Type("array")
+     */
+    private $groups;
+
+    /**
+     * @Type("array")
+     * @SerializedName("identityProviderMappers")
+     */
+    private $identityProviderMappers;
+
+    /**
+     * @Type("array<KeycloakAdmin\IdentityProviders\IdentityProvider>")
+     */
+    private $identityProviders;
+
+    /**
+     * @Type("boolean")
+     * @SerializedName("internationalizationEnabled")
+     */
+    private $internationalizationEnabled;
+
+    /**
+     * @Type("string")
+     * @SerializedName("keycloakVersion")
+     */
+    private $keycloakVersion;
+
+    /**
+     * @Type("string")
+     * @SerializedName("loginTheme")
+     */
+    private $loginTheme;
+
+    /**
+     * @Type("boolean")
+     * @SerializedName("loginWithEmailAllowed")
+     */
+    private $loginWithEmailAllowed;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("maxDeltaTimeSeconds")
+     */
+    private $maxDeltaTimeSeconds;
 
     /**
      * @Type("integer")
@@ -209,45 +327,27 @@ class Realm implements \JsonSerializable
 
     /**
      * @Type("integer")
-     * @SerializedName("waitIncrementSeconds")
+     * @SerializedName("notBefore")
      */
-    private $waitIncrementSeconds;
+    private $notBefore;
 
     /**
      * @Type("integer")
-     * @SerializedName("quickLoginCheckMilliSeconds")
+     * @SerializedName("offlineSessionIdleTimeout")
      */
-    private $quickLoginCheckMilliSeconds;
+    private $offlineSessionIdleTimeout;
 
     /**
      * @Type("integer")
-     * @SerializedName("maxDeltaTimeSeconds")
+     * @SerializedName("offlineSessionMaxLifespan")
      */
-    private $maxDeltaTimeSeconds;
+    private $offlineSessionMaxLifespan;
 
     /**
-     * @Type("integer")
-     * @SerializedName("failureFactor")
+     * @Type("boolean")
+     * @SerializedName("offlineSessionMaxLifespanEnabled")
      */
-    private $failureFactor;
-
-    /**
-     * @Type("array")
-     * @SerializedName("defaultRoles")
-     */
-    private $defaultRoles;
-
-    /**
-     * @Type("array")
-     * @SerializedName("requiredCredentials")
-     */
-    private $requiredCredentials;
-
-    /**
-     * @Type("string")
-     * @SerializedName("otpPolicyType")
-     */
-    private $otpPolicyType;
+    private $offlineSessionMaxLifespanEnabled;
 
     /**
      * @Type("string")
@@ -257,15 +357,15 @@ class Realm implements \JsonSerializable
 
     /**
      * @Type("integer")
-     * @SerializedName("otpPolicyInitialCounter")
-     */
-    private $otpPolicyInitialCounter;
-
-    /**
-     * @Type("integer")
      * @SerializedName("otpPolicyDigits")
      */
     private $otpPolicyDigits;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("otpPolicyInitialCounter")
+     */
+    private $otpPolicyInitialCounter;
 
     /**
      * @Type("integer")
@@ -280,6 +380,12 @@ class Realm implements \JsonSerializable
     private $otpPolicyPeriod;
 
     /**
+     * @Type("string")
+     * @SerializedName("otpPolicyType")
+     */
+    private $otpPolicyType;
+
+    /**
      * @Type("array")
      * @SerializedName("otpSupportedApplications")
      */
@@ -287,189 +393,50 @@ class Realm implements \JsonSerializable
 
     /**
      * @Type("string")
-     * @SerializedName("webAuthnPolicyRpEntityName")
+     * @SerializedName("passwordPolicy")
      */
-    private $webAuthnPolicyRpEntityName;
+    private $passwordPolicy;
 
     /**
-     * @Type("array")
-     * @SerializedName("webAuthnPolicySignatureAlgorithms")
+     * @Type("boolean")
+     * @SerializedName("permanentLockout")
      */
-    private $webAuthnPolicySignatureAlgorithms;
+    private $permanentLockout;
 
     /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyRpId")
+     * @Type("array<KeycloakAdmin\ProtocolMappers\ProtocolMapper>")
+     * @SerializedName("protocolMappers")
      */
-    private $webAuthnPolicyRpId;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyAttestationConveyancePreference")
-     */
-    private $webAuthnPolicyAttestationConveyancePreference;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyAuthenticatorAttachment")
-     */
-    private $webAuthnPolicyAuthenticatorAttachment;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyRequireResidentKey")
-     */
-    private $webAuthnPolicyRequireResidentKey;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyUserVerificationRequirement")
-     */
-    private $webAuthnPolicyUserVerificationRequirement;
+    private $protocolMappers;
 
     /**
      * @Type("integer")
-     * @SerializedName("webAuthnPolicyCreateTimeout")
+     * @SerializedName("quickLoginCheckMilliSeconds")
      */
-    private $webAuthnPolicyCreateTimeout;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("webAuthnPolicyAvoidSameAuthenticatorRegister")
-     */
-    private $webAuthnPolicyAvoidSameAuthenticatorRegister;
-
-    /**
-     * @Type("array")
-     * @SerializedName("webAuthnPolicyAcceptableAaguids")
-     */
-    private $webAuthnPolicyAcceptableAaguids;
+    private $quickLoginCheckMilliSeconds;
 
     /**
      * @Type("string")
-     * @SerializedName("webAuthnPolicyPasswordlessRpEntityName")
      */
-    private $webAuthnPolicyPasswordlessRpEntityName;
-
-    /**
-     * @Type("array")
-     * @SerializedName("webAuthnPolicyPasswordlessSignatureAlgorithms")
-     */
-    private $webAuthnPolicyPasswordlessSignatureAlgorithms;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyPasswordlessRpId")
-     */
-    private $webAuthnPolicyPasswordlessRpId;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyPasswordlessAttestationConveyancePreference")
-     */
-    private $webAuthnPolicyPasswordlessAttestationConveyancePreference;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyPasswordlessAuthenticatorAttachment")
-     */
-    private $webAuthnPolicyPasswordlessAuthenticatorAttachment;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyPasswordlessRequireResidentKey")
-     */
-    private $webAuthnPolicyPasswordlessRequireResidentKey;
-
-    /**
-     * @Type("string")
-     * @SerializedName("webAuthnPolicyPasswordlessUserVerificationRequirement")
-     */
-    private $webAuthnPolicyPasswordlessUserVerificationRequirement;
+    private $realm;
 
     /**
      * @Type("integer")
-     * @SerializedName("webAuthnPolicyPasswordlessCreateTimeout")
+     * @SerializedName("refreshTokenMaxReuse")
      */
-    private $webAuthnPolicyPasswordlessCreateTimeout;
+    private $refreshTokenMaxReuse;
 
     /**
      * @Type("boolean")
-     * @SerializedName("webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister")
+     * @SerializedName("registrationAllowed")
      */
-    private $webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister;
-
-    /**
-     * @Type("array")
-     * @SerializedName("webAuthnPolicyPasswordlessAcceptableAaguids")
-     */
-    private $webAuthnPolicyPasswordlessAcceptableAaguids;
-
-    /**
-     * @Type("array")
-     * @SerializedName("browserSecurityHeaders")
-     */
-    private $browserSecurityHeaders;
-
-    /**
-     * @Type("array")
-     * @SerializedName("smtpServer")
-     */
-    private $smtpServer;
+    private $registrationAllowed;
 
     /**
      * @Type("boolean")
-     * @SerializedName("eventsEnabled")
+     * @SerializedName("registrationEmailAsUsername")
      */
-    private $eventsEnabled;
-
-    /**
-     * @Type("array")
-     * @SerializedName("eventsListeners")
-     */
-    private $eventsListeners;
-
-    /**
-     * @Type("array")
-     * @SerializedName("enabledEventTypes")
-     */
-    private $enabledEventTypes;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("adminEventsEnabled")
-     */
-    private $adminEventsEnabled;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("adminEventsDetailsEnabled")
-     */
-    private $adminEventsDetailsEnabled;
-
-    /**
-     * @Type("array<KeycloakAdmin\IdentityProviders\IdentityProvider>")
-     * @SerializedName("identityProviders")
-     */
-    private $identityProviders;
-
-    /**
-     * @Type("boolean")
-     * @SerializedName("internationalizationEnabled")
-     */
-    private $internationalizationEnabled;
-
-    /**
-     * @Type("array")
-     * @SerializedName("supportedLocales")
-     */
-    private $supportedLocales;
-
-    /**
-     * @Type("string")
-     * @SerializedName("browserFlow")
-     */
-    private $browserFlow;
+    private $registrationEmailAsUsername;
 
     /**
      * @Type("string")
@@ -478,10 +445,16 @@ class Realm implements \JsonSerializable
     private $registrationFlow;
 
     /**
-     * @Type("string")
-     * @SerializedName("directGrantFlow")
+     * @Type("boolean")
+     * @SerializedName("rememberMe")
      */
-    private $directGrantFlow;
+    private $rememberMe;
+
+    /**
+     * @Type("array")
+     * @SerializedName("requiredActions")
+     */
+    private $requiredActions;
 
     /**
      * @Type("string")
@@ -490,28 +463,104 @@ class Realm implements \JsonSerializable
     private $resetCredentialsFlow;
 
     /**
-     * @Type("string")
-     * @SerializedName("clientAuthenticationFlow")
+     * @Type("boolean")
+     * @SerializedName("resetPasswordAllowed")
      */
-    private $clientAuthenticationFlow;
+    private $resetPasswordAllowed;
 
     /**
-     * @Type("string")
-     * @SerializedName("dockerAuthenticationFlow")
+     * @Type("boolean")
+     * @SerializedName("revokeRefreshToken")
      */
-    private $dockerAuthenticationFlow;
+    private $revokeRefreshToken;
+
+    /**
+     * @Type("KeycloakAdmin\Roles\RoleCollection")
+     */
+    private $roles;
 
     /**
      * @Type("array")
-     * @SerializedName("attributes")
+     * @SerializedName("scopeMappings")
      */
-    private $attributes;
+    private $scopeMappings;
+
+    /**
+     * @Type("array")
+     * @SerializedName("smtpServer")
+     */
+    private $smtpServer;
+
+    /**
+     * @Type("string")
+     */
+    private $sslRequired;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("ssoSessionIdleTimeout")
+     */
+    private $ssoSessionIdleTimeout;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("ssoSessionIdleTimeoutRememberMe")
+     */
+    private $ssoSessionIdleTimeoutRememberMe;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("ssoSessionMaxLifespan")
+     */
+    private $ssoSessionMaxLifespan;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("ssoSessionMaxLifespanRememberMe")
+     */
+    private $ssoSessionMaxLifespanRememberMe;
+
+    /**
+     * @Type("array")
+     * @SerializedName("supportedLocales")
+     */
+    private $supportedLocales;
+
+    /**
+     * @Type("array")
+     * @SerializedName("userFederationMappers")
+     */
+    private $userFederationMappers;
+
+    /**
+     * @Type("array")
+     * @SerializedName("userFederationProviders")
+     */
+    private $userFederationProviders;
 
     /**
      * @Type("boolean")
      * @SerializedName("userManagedAccessAllowed")
      */
     private $userManagedAccessAllowed;
+
+    /**
+     * @Type("KeycloakAdmin\Users\UserCollection")
+     * @SerializedName("users")
+     */
+    private $users;
+
+    /**
+     * @Type("boolean")
+     * @SerializedName("verifyEmail")
+     */
+    private $verifyEmail;
+
+    /**
+     * @Type("integer")
+     * @SerializedName("waitIncrementSeconds")
+     */
+    private $waitIncrementSeconds;
 
     /**
      * @return mixed
@@ -534,72 +583,54 @@ class Realm implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getRealm()
+    public function getAccessCodeLifespan()
     {
-        return $this->realm;
+        return $this->accessCodeLifespan;
     }
 
     /**
-     * @param mixed $realm
+     * @param mixed $accessCodeLifespan
      * @return Realm
      */
-    public function setRealm($realm)
+    public function setAccessCodeLifespan($accessCodeLifespan)
     {
-        $this->realm = $realm;
+        $this->accessCodeLifespan = $accessCodeLifespan;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getNotBefore()
+    public function getAccessCodeLifespanLogin()
     {
-        return $this->notBefore;
+        return $this->accessCodeLifespanLogin;
     }
 
     /**
-     * @param mixed $notBefore
+     * @param mixed $accessCodeLifespanLogin
      * @return Realm
      */
-    public function setNotBefore($notBefore)
+    public function setAccessCodeLifespanLogin($accessCodeLifespanLogin)
     {
-        $this->notBefore = $notBefore;
+        $this->accessCodeLifespanLogin = $accessCodeLifespanLogin;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getRevokeRefreshToken()
+    public function getAccessCodeLifespanUserAction()
     {
-        return $this->revokeRefreshToken;
+        return $this->accessCodeLifespanUserAction;
     }
 
     /**
-     * @param mixed $revokeRefreshToken
+     * @param mixed $accessCodeLifespanUserAction
      * @return Realm
      */
-    public function setRevokeRefreshToken($revokeRefreshToken)
+    public function setAccessCodeLifespanUserAction($accessCodeLifespanUserAction)
     {
-        $this->revokeRefreshToken = $revokeRefreshToken;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRefreshTokenMaxReuse()
-    {
-        return $this->refreshTokenMaxReuse;
-    }
-
-    /**
-     * @param mixed $refreshTokenMaxReuse
-     * @return Realm
-     */
-    public function setRefreshTokenMaxReuse($refreshTokenMaxReuse)
-    {
-        $this->refreshTokenMaxReuse = $refreshTokenMaxReuse;
+        $this->accessCodeLifespanUserAction = $accessCodeLifespanUserAction;
         return $this;
     }
 
@@ -642,180 +673,18 @@ class Realm implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getSsoSessionIdleTimeout()
+    public function getAccountTheme()
     {
-        return $this->ssoSessionIdleTimeout;
+        return $this->accountTheme;
     }
 
     /**
-     * @param mixed $ssoSessionIdleTimeout
+     * @param mixed $accountTheme
      * @return Realm
      */
-    public function setSsoSessionIdleTimeout($ssoSessionIdleTimeout)
+    public function setAccountTheme($accountTheme)
     {
-        $this->ssoSessionIdleTimeout = $ssoSessionIdleTimeout;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSsoSessionMaxLifespan()
-    {
-        return $this->ssoSessionMaxLifespan;
-    }
-
-    /**
-     * @param mixed $ssoSessionMaxLifespan
-     * @return Realm
-     */
-    public function setSsoSessionMaxLifespan($ssoSessionMaxLifespan)
-    {
-        $this->ssoSessionMaxLifespan = $ssoSessionMaxLifespan;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSsoSessionIdleTimeoutRememberMe()
-    {
-        return $this->ssoSessionIdleTimeoutRememberMe;
-    }
-
-    /**
-     * @param mixed $ssoSessionIdleTimeoutRememberMe
-     * @return Realm
-     */
-    public function setSsoSessionIdleTimeoutRememberMe($ssoSessionIdleTimeoutRememberMe)
-    {
-        $this->ssoSessionIdleTimeoutRememberMe = $ssoSessionIdleTimeoutRememberMe;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSsoSessionMaxLifespanRememberMe()
-    {
-        return $this->ssoSessionMaxLifespanRememberMe;
-    }
-
-    /**
-     * @param mixed $ssoSessionMaxLifespanRememberMe
-     * @return Realm
-     */
-    public function setSsoSessionMaxLifespanRememberMe($ssoSessionMaxLifespanRememberMe)
-    {
-        $this->ssoSessionMaxLifespanRememberMe = $ssoSessionMaxLifespanRememberMe;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOfflineSessionIdleTimeout()
-    {
-        return $this->offlineSessionIdleTimeout;
-    }
-
-    /**
-     * @param mixed $offlineSessionIdleTimeout
-     * @return Realm
-     */
-    public function setOfflineSessionIdleTimeout($offlineSessionIdleTimeout)
-    {
-        $this->offlineSessionIdleTimeout = $offlineSessionIdleTimeout;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOfflineSessionMaxLifespanEnabled()
-    {
-        return $this->offlineSessionMaxLifespanEnabled;
-    }
-
-    /**
-     * @param mixed $offlineSessionMaxLifespanEnabled
-     * @return Realm
-     */
-    public function setOfflineSessionMaxLifespanEnabled($offlineSessionMaxLifespanEnabled)
-    {
-        $this->offlineSessionMaxLifespanEnabled = $offlineSessionMaxLifespanEnabled;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOfflineSessionMaxLifespan()
-    {
-        return $this->offlineSessionMaxLifespan;
-    }
-
-    /**
-     * @param mixed $offlineSessionMaxLifespan
-     * @return Realm
-     */
-    public function setOfflineSessionMaxLifespan($offlineSessionMaxLifespan)
-    {
-        $this->offlineSessionMaxLifespan = $offlineSessionMaxLifespan;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAccessCodeLifespan()
-    {
-        return $this->accessCodeLifespan;
-    }
-
-    /**
-     * @param mixed $accessCodeLifespan
-     * @return Realm
-     */
-    public function setAccessCodeLifespan($accessCodeLifespan)
-    {
-        $this->accessCodeLifespan = $accessCodeLifespan;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAccessCodeLifespanUserAction()
-    {
-        return $this->accessCodeLifespanUserAction;
-    }
-
-    /**
-     * @param mixed $accessCodeLifespanUserAction
-     * @return Realm
-     */
-    public function setAccessCodeLifespanUserAction($accessCodeLifespanUserAction)
-    {
-        $this->accessCodeLifespanUserAction = $accessCodeLifespanUserAction;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAccessCodeLifespanLogin()
-    {
-        return $this->accessCodeLifespanLogin;
-    }
-
-    /**
-     * @param mixed $accessCodeLifespanLogin
-     * @return Realm
-     */
-    public function setAccessCodeLifespanLogin($accessCodeLifespanLogin)
-    {
-        $this->accessCodeLifespanLogin = $accessCodeLifespanLogin;
+        $this->accountTheme = $accountTheme;
         return $this;
     }
 
@@ -858,936 +727,18 @@ class Realm implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getEnabled()
+    public function getAdminEventsDetailsEnabled()
     {
-        return $this->enabled;
+        return $this->adminEventsDetailsEnabled;
     }
 
     /**
-     * @param mixed $enabled
+     * @param mixed $adminEventsDetailsEnabled
      * @return Realm
      */
-    public function setEnabled($enabled)
+    public function setAdminEventsDetailsEnabled($adminEventsDetailsEnabled)
     {
-        $this->enabled = $enabled;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSslRequired()
-    {
-        return $this->sslRequired;
-    }
-
-    /**
-     * @param mixed $sslRequired
-     * @return Realm
-     */
-    public function setSslRequired($sslRequired)
-    {
-        $this->sslRequired = $sslRequired;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRegistrationAllowed()
-    {
-        return $this->registrationAllowed;
-    }
-
-    /**
-     * @param mixed $registrationAllowed
-     * @return Realm
-     */
-    public function setRegistrationAllowed($registrationAllowed)
-    {
-        $this->registrationAllowed = $registrationAllowed;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRegistrationEmailAsUsername()
-    {
-        return $this->registrationEmailAsUsername;
-    }
-
-    /**
-     * @param mixed $registrationEmailAsUsername
-     * @return Realm
-     */
-    public function setRegistrationEmailAsUsername($registrationEmailAsUsername)
-    {
-        $this->registrationEmailAsUsername = $registrationEmailAsUsername;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRememberMe()
-    {
-        return $this->rememberMe;
-    }
-
-    /**
-     * @param mixed $rememberMe
-     * @return Realm
-     */
-    public function setRememberMe($rememberMe)
-    {
-        $this->rememberMe = $rememberMe;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVerifyEmail()
-    {
-        return $this->verifyEmail;
-    }
-
-    /**
-     * @param mixed $verifyEmail
-     * @return Realm
-     */
-    public function setVerifyEmail($verifyEmail)
-    {
-        $this->verifyEmail = $verifyEmail;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLoginWithEmailAllowed()
-    {
-        return $this->loginWithEmailAllowed;
-    }
-
-    /**
-     * @param mixed $loginWithEmailAllowed
-     * @return Realm
-     */
-    public function setLoginWithEmailAllowed($loginWithEmailAllowed)
-    {
-        $this->loginWithEmailAllowed = $loginWithEmailAllowed;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDuplicateEmailsAllowed()
-    {
-        return $this->duplicateEmailsAllowed;
-    }
-
-    /**
-     * @param mixed $duplicateEmailsAllowed
-     * @return Realm
-     */
-    public function setDuplicateEmailsAllowed($duplicateEmailsAllowed)
-    {
-        $this->duplicateEmailsAllowed = $duplicateEmailsAllowed;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getResetPasswordAllowed()
-    {
-        return $this->resetPasswordAllowed;
-    }
-
-    /**
-     * @param mixed $resetPasswordAllowed
-     * @return Realm
-     */
-    public function setResetPasswordAllowed($resetPasswordAllowed)
-    {
-        $this->resetPasswordAllowed = $resetPasswordAllowed;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEditUsernameAllowed()
-    {
-        return $this->editUsernameAllowed;
-    }
-
-    /**
-     * @param mixed $editUsernameAllowed
-     * @return Realm
-     */
-    public function setEditUsernameAllowed($editUsernameAllowed)
-    {
-        $this->editUsernameAllowed = $editUsernameAllowed;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBruteForceProtected()
-    {
-        return $this->bruteForceProtected;
-    }
-
-    /**
-     * @param mixed $bruteForceProtected
-     * @return Realm
-     */
-    public function setBruteForceProtected($bruteForceProtected)
-    {
-        $this->bruteForceProtected = $bruteForceProtected;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPermanentLockout()
-    {
-        return $this->permanentLockout;
-    }
-
-    /**
-     * @param mixed $permanentLockout
-     * @return Realm
-     */
-    public function setPermanentLockout($permanentLockout)
-    {
-        $this->permanentLockout = $permanentLockout;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMaxFailureWaitSeconds()
-    {
-        return $this->maxFailureWaitSeconds;
-    }
-
-    /**
-     * @param mixed $maxFailureWaitSeconds
-     * @return Realm
-     */
-    public function setMaxFailureWaitSeconds($maxFailureWaitSeconds)
-    {
-        $this->maxFailureWaitSeconds = $maxFailureWaitSeconds;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMinimumQuickLoginWaitSeconds()
-    {
-        return $this->minimumQuickLoginWaitSeconds;
-    }
-
-    /**
-     * @param mixed $minimumQuickLoginWaitSeconds
-     * @return Realm
-     */
-    public function setMinimumQuickLoginWaitSeconds($minimumQuickLoginWaitSeconds)
-    {
-        $this->minimumQuickLoginWaitSeconds = $minimumQuickLoginWaitSeconds;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWaitIncrementSeconds()
-    {
-        return $this->waitIncrementSeconds;
-    }
-
-    /**
-     * @param mixed $waitIncrementSeconds
-     * @return Realm
-     */
-    public function setWaitIncrementSeconds($waitIncrementSeconds)
-    {
-        $this->waitIncrementSeconds = $waitIncrementSeconds;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getQuickLoginCheckMilliSeconds()
-    {
-        return $this->quickLoginCheckMilliSeconds;
-    }
-
-    /**
-     * @param mixed $quickLoginCheckMilliSeconds
-     * @return Realm
-     */
-    public function setQuickLoginCheckMilliSeconds($quickLoginCheckMilliSeconds)
-    {
-        $this->quickLoginCheckMilliSeconds = $quickLoginCheckMilliSeconds;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMaxDeltaTimeSeconds()
-    {
-        return $this->maxDeltaTimeSeconds;
-    }
-
-    /**
-     * @param mixed $maxDeltaTimeSeconds
-     * @return Realm
-     */
-    public function setMaxDeltaTimeSeconds($maxDeltaTimeSeconds)
-    {
-        $this->maxDeltaTimeSeconds = $maxDeltaTimeSeconds;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFailureFactor()
-    {
-        return $this->failureFactor;
-    }
-
-    /**
-     * @param mixed $failureFactor
-     * @return Realm
-     */
-    public function setFailureFactor($failureFactor)
-    {
-        $this->failureFactor = $failureFactor;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDefaultRoles()
-    {
-        return $this->defaultRoles;
-    }
-
-    /**
-     * @param mixed $defaultRoles
-     * @return Realm
-     */
-    public function setDefaultRoles($defaultRoles)
-    {
-        $this->defaultRoles = $defaultRoles;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRequiredCredentials()
-    {
-        return $this->requiredCredentials;
-    }
-
-    /**
-     * @param mixed $requiredCredentials
-     * @return Realm
-     */
-    public function setRequiredCredentials($requiredCredentials)
-    {
-        $this->requiredCredentials = $requiredCredentials;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOtpPolicyType()
-    {
-        return $this->otpPolicyType;
-    }
-
-    /**
-     * @param mixed $otpPolicyType
-     * @return Realm
-     */
-    public function setOtpPolicyType($otpPolicyType)
-    {
-        $this->otpPolicyType = $otpPolicyType;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOtpPolicyAlgorithm()
-    {
-        return $this->otpPolicyAlgorithm;
-    }
-
-    /**
-     * @param mixed $otpPolicyAlgorithm
-     * @return Realm
-     */
-    public function setOtpPolicyAlgorithm($otpPolicyAlgorithm)
-    {
-        $this->otpPolicyAlgorithm = $otpPolicyAlgorithm;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOtpPolicyInitialCounter()
-    {
-        return $this->otpPolicyInitialCounter;
-    }
-
-    /**
-     * @param mixed $otpPolicyInitialCounter
-     * @return Realm
-     */
-    public function setOtpPolicyInitialCounter($otpPolicyInitialCounter)
-    {
-        $this->otpPolicyInitialCounter = $otpPolicyInitialCounter;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOtpPolicyDigits()
-    {
-        return $this->otpPolicyDigits;
-    }
-
-    /**
-     * @param mixed $otpPolicyDigits
-     * @return Realm
-     */
-    public function setOtpPolicyDigits($otpPolicyDigits)
-    {
-        $this->otpPolicyDigits = $otpPolicyDigits;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOtpPolicyLookAheadWindow()
-    {
-        return $this->otpPolicyLookAheadWindow;
-    }
-
-    /**
-     * @param mixed $otpPolicyLookAheadWindow
-     * @return Realm
-     */
-    public function setOtpPolicyLookAheadWindow($otpPolicyLookAheadWindow)
-    {
-        $this->otpPolicyLookAheadWindow = $otpPolicyLookAheadWindow;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOtpPolicyPeriod()
-    {
-        return $this->otpPolicyPeriod;
-    }
-
-    /**
-     * @param mixed $otpPolicyPeriod
-     * @return Realm
-     */
-    public function setOtpPolicyPeriod($otpPolicyPeriod)
-    {
-        $this->otpPolicyPeriod = $otpPolicyPeriod;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOtpSupportedApplications()
-    {
-        return $this->otpSupportedApplications;
-    }
-
-    /**
-     * @param mixed $otpSupportedApplications
-     * @return Realm
-     */
-    public function setOtpSupportedApplications($otpSupportedApplications)
-    {
-        $this->otpSupportedApplications = $otpSupportedApplications;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyRpEntityName()
-    {
-        return $this->webAuthnPolicyRpEntityName;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyRpEntityName
-     * @return Realm
-     */
-    public function setWebAuthnPolicyRpEntityName($webAuthnPolicyRpEntityName)
-    {
-        $this->webAuthnPolicyRpEntityName = $webAuthnPolicyRpEntityName;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicySignatureAlgorithms()
-    {
-        return $this->webAuthnPolicySignatureAlgorithms;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicySignatureAlgorithms
-     * @return Realm
-     */
-    public function setWebAuthnPolicySignatureAlgorithms($webAuthnPolicySignatureAlgorithms)
-    {
-        $this->webAuthnPolicySignatureAlgorithms = $webAuthnPolicySignatureAlgorithms;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyRpId()
-    {
-        return $this->webAuthnPolicyRpId;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyRpId
-     * @return Realm
-     */
-    public function setWebAuthnPolicyRpId($webAuthnPolicyRpId)
-    {
-        $this->webAuthnPolicyRpId = $webAuthnPolicyRpId;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyAttestationConveyancePreference()
-    {
-        return $this->webAuthnPolicyAttestationConveyancePreference;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyAttestationConveyancePreference
-     * @return Realm
-     */
-    public function setWebAuthnPolicyAttestationConveyancePreference($webAuthnPolicyAttestationConveyancePreference)
-    {
-        $this->webAuthnPolicyAttestationConveyancePreference = $webAuthnPolicyAttestationConveyancePreference;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyAuthenticatorAttachment()
-    {
-        return $this->webAuthnPolicyAuthenticatorAttachment;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyAuthenticatorAttachment
-     * @return Realm
-     */
-    public function setWebAuthnPolicyAuthenticatorAttachment($webAuthnPolicyAuthenticatorAttachment)
-    {
-        $this->webAuthnPolicyAuthenticatorAttachment = $webAuthnPolicyAuthenticatorAttachment;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyRequireResidentKey()
-    {
-        return $this->webAuthnPolicyRequireResidentKey;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyRequireResidentKey
-     * @return Realm
-     */
-    public function setWebAuthnPolicyRequireResidentKey($webAuthnPolicyRequireResidentKey)
-    {
-        $this->webAuthnPolicyRequireResidentKey = $webAuthnPolicyRequireResidentKey;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyUserVerificationRequirement()
-    {
-        return $this->webAuthnPolicyUserVerificationRequirement;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyUserVerificationRequirement
-     * @return Realm
-     */
-    public function setWebAuthnPolicyUserVerificationRequirement($webAuthnPolicyUserVerificationRequirement)
-    {
-        $this->webAuthnPolicyUserVerificationRequirement = $webAuthnPolicyUserVerificationRequirement;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyCreateTimeout()
-    {
-        return $this->webAuthnPolicyCreateTimeout;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyCreateTimeout
-     * @return Realm
-     */
-    public function setWebAuthnPolicyCreateTimeout($webAuthnPolicyCreateTimeout)
-    {
-        $this->webAuthnPolicyCreateTimeout = $webAuthnPolicyCreateTimeout;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyAvoidSameAuthenticatorRegister()
-    {
-        return $this->webAuthnPolicyAvoidSameAuthenticatorRegister;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyAvoidSameAuthenticatorRegister
-     * @return Realm
-     */
-    public function setWebAuthnPolicyAvoidSameAuthenticatorRegister($webAuthnPolicyAvoidSameAuthenticatorRegister)
-    {
-        $this->webAuthnPolicyAvoidSameAuthenticatorRegister = $webAuthnPolicyAvoidSameAuthenticatorRegister;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyAcceptableAaguids()
-    {
-        return $this->webAuthnPolicyAcceptableAaguids;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyAcceptableAaguids
-     * @return Realm
-     */
-    public function setWebAuthnPolicyAcceptableAaguids($webAuthnPolicyAcceptableAaguids)
-    {
-        $this->webAuthnPolicyAcceptableAaguids = $webAuthnPolicyAcceptableAaguids;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessRpEntityName()
-    {
-        return $this->webAuthnPolicyPasswordlessRpEntityName;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyPasswordlessRpEntityName
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessRpEntityName($webAuthnPolicyPasswordlessRpEntityName)
-    {
-        $this->webAuthnPolicyPasswordlessRpEntityName = $webAuthnPolicyPasswordlessRpEntityName;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessSignatureAlgorithms()
-    {
-        return $this->webAuthnPolicyPasswordlessSignatureAlgorithms;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyPasswordlessSignatureAlgorithms
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessSignatureAlgorithms($webAuthnPolicyPasswordlessSignatureAlgorithms)
-    {
-        $this->webAuthnPolicyPasswordlessSignatureAlgorithms = $webAuthnPolicyPasswordlessSignatureAlgorithms;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessRpId()
-    {
-        return $this->webAuthnPolicyPasswordlessRpId;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyPasswordlessRpId
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessRpId($webAuthnPolicyPasswordlessRpId)
-    {
-        $this->webAuthnPolicyPasswordlessRpId = $webAuthnPolicyPasswordlessRpId;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessAttestationConveyancePreference()
-    {
-        return $this->webAuthnPolicyPasswordlessAttestationConveyancePreference;
-    }
-
-    /**
-     * @param mixed $param
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessAttestationConveyancePreference($param)
-    {
-        $this->webAuthnPolicyPasswordlessAttestationConveyancePreference = $param;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessAuthenticatorAttachment()
-    {
-        return $this->webAuthnPolicyPasswordlessAuthenticatorAttachment;
-    }
-
-    /**
-     * @param mixed $param
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessAuthenticatorAttachment($param)
-    {
-        $this->webAuthnPolicyPasswordlessAuthenticatorAttachment = $param;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessRequireResidentKey()
-    {
-        return $this->webAuthnPolicyPasswordlessRequireResidentKey;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyPasswordlessRequireResidentKey
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessRequireResidentKey($webAuthnPolicyPasswordlessRequireResidentKey)
-    {
-        $this->webAuthnPolicyPasswordlessRequireResidentKey = $webAuthnPolicyPasswordlessRequireResidentKey;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessUserVerificationRequirement()
-    {
-        return $this->webAuthnPolicyPasswordlessUserVerificationRequirement;
-    }
-
-    /**
-     * @param mixed $param
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessUserVerificationRequirement($param)
-    {
-        $this->webAuthnPolicyPasswordlessUserVerificationRequirement = $param;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessCreateTimeout()
-    {
-        return $this->webAuthnPolicyPasswordlessCreateTimeout;
-    }
-
-    /**
-     * @param mixed $webAuthnPolicyPasswordlessCreateTimeout
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessCreateTimeout($webAuthnPolicyPasswordlessCreateTimeout)
-    {
-        $this->webAuthnPolicyPasswordlessCreateTimeout = $webAuthnPolicyPasswordlessCreateTimeout;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister()
-    {
-        return $this->webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister;
-    }
-
-    /**
-     * @param mixed $param
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister($param)
-    {
-        $this->webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister = $param;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebAuthnPolicyPasswordlessAcceptableAaguids()
-    {
-        return $this->webAuthnPolicyPasswordlessAcceptableAaguids;
-    }
-
-    /**
-     * @param mixed $param
-     * @return Realm
-     */
-    public function setWebAuthnPolicyPasswordlessAcceptableAaguids($param)
-    {
-        $this->webAuthnPolicyPasswordlessAcceptableAaguids = $param;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBrowserSecurityHeaders()
-    {
-        return $this->browserSecurityHeaders;
-    }
-
-    /**
-     * @param mixed $browserSecurityHeaders
-     * @return Realm
-     */
-    public function setBrowserSecurityHeaders($browserSecurityHeaders)
-    {
-        $this->browserSecurityHeaders = $browserSecurityHeaders;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSmtpServer()
-    {
-        return $this->smtpServer;
-    }
-
-    /**
-     * @param mixed $smtpServer
-     * @return Realm
-     */
-    public function setSmtpServer($smtpServer)
-    {
-        $this->smtpServer = $smtpServer;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEventsEnabled()
-    {
-        return $this->eventsEnabled;
-    }
-
-    /**
-     * @param mixed $eventsEnabled
-     * @return Realm
-     */
-    public function setEventsEnabled($eventsEnabled)
-    {
-        $this->eventsEnabled = $eventsEnabled;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEventsListeners()
-    {
-        return $this->eventsListeners;
-    }
-
-    /**
-     * @param mixed $eventsListeners
-     * @return Realm
-     */
-    public function setEventsListeners($eventsListeners)
-    {
-        $this->eventsListeners = $eventsListeners;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEnabledEventTypes()
-    {
-        return $this->enabledEventTypes;
-    }
-
-    /**
-     * @param mixed $enabledEventTypes
-     * @return Realm
-     */
-    public function setEnabledEventTypes($enabledEventTypes)
-    {
-        $this->enabledEventTypes = $enabledEventTypes;
+        $this->adminEventsDetailsEnabled = $adminEventsDetailsEnabled;
         return $this;
     }
 
@@ -1812,18 +763,612 @@ class Realm implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getAdminEventsDetailsEnabled()
+    public function getAdminTheme()
     {
-        return $this->adminEventsDetailsEnabled;
+        return $this->adminTheme;
     }
 
     /**
-     * @param mixed $adminEventsDetailsEnabled
+     * @param mixed $adminTheme
      * @return Realm
      */
-    public function setAdminEventsDetailsEnabled($adminEventsDetailsEnabled)
+    public function setAdminTheme($adminTheme)
     {
-        $this->adminEventsDetailsEnabled = $adminEventsDetailsEnabled;
+        $this->adminTheme = $adminTheme;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param mixed $attributes
+     * @return Realm
+     */
+    public function setAttributes($attributes)
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthenticationFlows()
+    {
+        return $this->authenticationFlows;
+    }
+
+    /**
+     * @param mixed $authenticationFlows
+     * @return Realm
+     */
+    public function setAuthenticationFlows($authenticationFlows)
+    {
+        $this->authenticationFlows = $authenticationFlows;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthenticatorConfig()
+    {
+        return $this->authenticatorConfig;
+    }
+
+    /**
+     * @param mixed $authenticatorConfig
+     * @return Realm
+     */
+    public function setAuthenticatorConfig($authenticatorConfig)
+    {
+        $this->authenticatorConfig = $authenticatorConfig;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrowserFlow()
+    {
+        return $this->browserFlow;
+    }
+
+    /**
+     * @param mixed $browserFlow
+     * @return Realm
+     */
+    public function setBrowserFlow($browserFlow)
+    {
+        $this->browserFlow = $browserFlow;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrowserSecurityHeaders()
+    {
+        return $this->browserSecurityHeaders;
+    }
+
+    /**
+     * @param mixed $browserSecurityHeaders
+     * @return Realm
+     */
+    public function setBrowserSecurityHeaders($browserSecurityHeaders)
+    {
+        $this->browserSecurityHeaders = $browserSecurityHeaders;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBruteForceProtected()
+    {
+        return $this->bruteForceProtected;
+    }
+
+    /**
+     * @param mixed $bruteForceProtected
+     * @return Realm
+     */
+    public function setBruteForceProtected($bruteForceProtected)
+    {
+        $this->bruteForceProtected = $bruteForceProtected;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClientAuthenticationFlow()
+    {
+        return $this->clientAuthenticationFlow;
+    }
+
+    /**
+     * @param mixed $clientAuthenticationFlow
+     * @return Realm
+     */
+    public function setClientAuthenticationFlow($clientAuthenticationFlow)
+    {
+        $this->clientAuthenticationFlow = $clientAuthenticationFlow;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClientScopeMappings()
+    {
+        return $this->clientScopeMappings;
+    }
+
+    /**
+     * @param mixed $clientScopeMappings
+     * @return Realm
+     */
+    public function setClientScopeMappings($clientScopeMappings)
+    {
+        $this->clientScopeMappings = $clientScopeMappings;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClientScopes()
+    {
+        return $this->clientScopes;
+    }
+
+    /**
+     * @param mixed $clientScopes
+     * @return Realm
+     */
+    public function setClientScopes($clientScopes)
+    {
+        $this->clientScopes = $clientScopes;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClients()
+    {
+        return $this->clients;
+    }
+
+    /**
+     * @param mixed $clients
+     * @return Realm
+     */
+    public function setClients($clients)
+    {
+        $this->clients = $clients;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComponents()
+    {
+        return $this->components;
+    }
+
+    /**
+     * @param mixed $components
+     * @return Realm
+     */
+    public function setComponents($components)
+    {
+        $this->components = $components;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultDefaultClientScopes()
+    {
+        return $this->defaultDefaultClientScopes;
+    }
+
+    /**
+     * @param mixed $defaultDefaultClientScopes
+     * @return Realm
+     */
+    public function setDefaultDefaultClientScopes($defaultDefaultClientScopes)
+    {
+        $this->defaultDefaultClientScopes = $defaultDefaultClientScopes;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultGroups()
+    {
+        return $this->defaultGroups;
+    }
+
+    /**
+     * @param mixed $defaultGroups
+     * @return Realm
+     */
+    public function setDefaultGroups($defaultGroups)
+    {
+        $this->defaultGroups = $defaultGroups;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultLocale()
+    {
+        return $this->defaultLocale;
+    }
+
+    /**
+     * @param mixed $defaultLocale
+     * @return Realm
+     */
+    public function setDefaultLocale($defaultLocale)
+    {
+        $this->defaultLocale = $defaultLocale;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultOptionalClientScopes()
+    {
+        return $this->defaultOptionalClientScopes;
+    }
+
+    /**
+     * @param mixed $defaultOptionalClientScopes
+     * @return Realm
+     */
+    public function setDefaultOptionalClientScopes($defaultOptionalClientScopes)
+    {
+        $this->defaultOptionalClientScopes = $defaultOptionalClientScopes;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultRoles()
+    {
+        return $this->defaultRoles;
+    }
+
+    /**
+     * @param mixed $defaultRoles
+     * @return Realm
+     */
+    public function setDefaultRoles($defaultRoles)
+    {
+        $this->defaultRoles = $defaultRoles;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultSignatureAlgorithm()
+    {
+        return $this->defaultSignatureAlgorithm;
+    }
+
+    /**
+     * @param mixed $defaultSignatureAlgorithm
+     * @return Realm
+     */
+    public function setDefaultSignatureAlgorithm($defaultSignatureAlgorithm)
+    {
+        $this->defaultSignatureAlgorithm = $defaultSignatureAlgorithm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDirectGrantFlow()
+    {
+        return $this->directGrantFlow;
+    }
+
+    /**
+     * @param mixed $directGrantFlow
+     * @return Realm
+     */
+    public function setDirectGrantFlow($directGrantFlow)
+    {
+        $this->directGrantFlow = $directGrantFlow;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * @param mixed $displayName
+     * @return Realm
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDisplayNameHtml()
+    {
+        return $this->displayNameHtml;
+    }
+
+    /**
+     * @param mixed $displayNameHtml
+     * @return Realm
+     */
+    public function setDisplayNameHtml($displayNameHtml)
+    {
+        $this->displayNameHtml = $displayNameHtml;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDockerAuthenticationFlow()
+    {
+        return $this->dockerAuthenticationFlow;
+    }
+
+    /**
+     * @param mixed $dockerAuthenticationFlow
+     * @return Realm
+     */
+    public function setDockerAuthenticationFlow($dockerAuthenticationFlow)
+    {
+        $this->dockerAuthenticationFlow = $dockerAuthenticationFlow;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDuplicateEmailsAllowed()
+    {
+        return $this->duplicateEmailsAllowed;
+    }
+
+    /**
+     * @param mixed $duplicateEmailsAllowed
+     * @return Realm
+     */
+    public function setDuplicateEmailsAllowed($duplicateEmailsAllowed)
+    {
+        $this->duplicateEmailsAllowed = $duplicateEmailsAllowed;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEditUsernameAllowed()
+    {
+        return $this->editUsernameAllowed;
+    }
+
+    /**
+     * @param mixed $editUsernameAllowed
+     * @return Realm
+     */
+    public function setEditUsernameAllowed($editUsernameAllowed)
+    {
+        $this->editUsernameAllowed = $editUsernameAllowed;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmailTheme()
+    {
+        return $this->emailTheme;
+    }
+
+    /**
+     * @param mixed $emailTheme
+     * @return Realm
+     */
+    public function setEmailTheme($emailTheme)
+    {
+        $this->emailTheme = $emailTheme;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param mixed $enabled
+     * @return Realm
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnabledEventTypes()
+    {
+        return $this->enabledEventTypes;
+    }
+
+    /**
+     * @param mixed $enabledEventTypes
+     * @return Realm
+     */
+    public function setEnabledEventTypes($enabledEventTypes)
+    {
+        $this->enabledEventTypes = $enabledEventTypes;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventsEnabled()
+    {
+        return $this->eventsEnabled;
+    }
+
+    /**
+     * @param mixed $eventsEnabled
+     * @return Realm
+     */
+    public function setEventsEnabled($eventsEnabled)
+    {
+        $this->eventsEnabled = $eventsEnabled;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventsExpiration()
+    {
+        return $this->eventsExpiration;
+    }
+
+    /**
+     * @param mixed $eventsExpiration
+     * @return Realm
+     */
+    public function setEventsExpiration($eventsExpiration)
+    {
+        $this->eventsExpiration = $eventsExpiration;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventsListeners()
+    {
+        return $this->eventsListeners;
+    }
+
+    /**
+     * @param mixed $eventsListeners
+     * @return Realm
+     */
+    public function setEventsListeners($eventsListeners)
+    {
+        $this->eventsListeners = $eventsListeners;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFailureFactor()
+    {
+        return $this->failureFactor;
+    }
+
+    /**
+     * @param mixed $failureFactor
+     * @return Realm
+     */
+    public function setFailureFactor($failureFactor)
+    {
+        $this->failureFactor = $failureFactor;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFederatedUsers()
+    {
+        return $this->federatedUsers;
+    }
+
+    /**
+     * @param mixed $federatedUsers
+     * @return Realm
+     */
+    public function setFederatedUsers($federatedUsers)
+    {
+        $this->federatedUsers = $federatedUsers;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param mixed $groups
+     * @return Realm
+     */
+    public function setGroups($groups)
+    {
+        $this->groups = $groups;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdentityProviderMappers()
+    {
+        return $this->identityProviderMappers;
+    }
+
+    /**
+     * @param mixed $identityProviderMappers
+     * @return Realm
+     */
+    public function setIdentityProviderMappers($identityProviderMappers)
+    {
+        $this->identityProviderMappers = $identityProviderMappers;
         return $this;
     }
 
@@ -1866,36 +1411,450 @@ class Realm implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getSupportedLocales()
+    public function getKeycloakVersion()
     {
-        return $this->supportedLocales;
+        return $this->keycloakVersion;
     }
 
     /**
-     * @param mixed $supportedLocales
+     * @param mixed $keycloakVersion
      * @return Realm
      */
-    public function setSupportedLocales($supportedLocales)
+    public function setKeycloakVersion($keycloakVersion)
     {
-        $this->supportedLocales = $supportedLocales;
+        $this->keycloakVersion = $keycloakVersion;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getBrowserFlow()
+    public function getLoginTheme()
     {
-        return $this->browserFlow;
+        return $this->loginTheme;
     }
 
     /**
-     * @param mixed $browserFlow
+     * @param mixed $loginTheme
      * @return Realm
      */
-    public function setBrowserFlow($browserFlow)
+    public function setLoginTheme($loginTheme)
     {
-        $this->browserFlow = $browserFlow;
+        $this->loginTheme = $loginTheme;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLoginWithEmailAllowed()
+    {
+        return $this->loginWithEmailAllowed;
+    }
+
+    /**
+     * @param mixed $loginWithEmailAllowed
+     * @return Realm
+     */
+    public function setLoginWithEmailAllowed($loginWithEmailAllowed)
+    {
+        $this->loginWithEmailAllowed = $loginWithEmailAllowed;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaxDeltaTimeSeconds()
+    {
+        return $this->maxDeltaTimeSeconds;
+    }
+
+    /**
+     * @param mixed $maxDeltaTimeSeconds
+     * @return Realm
+     */
+    public function setMaxDeltaTimeSeconds($maxDeltaTimeSeconds)
+    {
+        $this->maxDeltaTimeSeconds = $maxDeltaTimeSeconds;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaxFailureWaitSeconds()
+    {
+        return $this->maxFailureWaitSeconds;
+    }
+
+    /**
+     * @param mixed $maxFailureWaitSeconds
+     * @return Realm
+     */
+    public function setMaxFailureWaitSeconds($maxFailureWaitSeconds)
+    {
+        $this->maxFailureWaitSeconds = $maxFailureWaitSeconds;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMinimumQuickLoginWaitSeconds()
+    {
+        return $this->minimumQuickLoginWaitSeconds;
+    }
+
+    /**
+     * @param mixed $minimumQuickLoginWaitSeconds
+     * @return Realm
+     */
+    public function setMinimumQuickLoginWaitSeconds($minimumQuickLoginWaitSeconds)
+    {
+        $this->minimumQuickLoginWaitSeconds = $minimumQuickLoginWaitSeconds;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNotBefore()
+    {
+        return $this->notBefore;
+    }
+
+    /**
+     * @param mixed $notBefore
+     * @return Realm
+     */
+    public function setNotBefore($notBefore)
+    {
+        $this->notBefore = $notBefore;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOfflineSessionIdleTimeout()
+    {
+        return $this->offlineSessionIdleTimeout;
+    }
+
+    /**
+     * @param mixed $offlineSessionIdleTimeout
+     * @return Realm
+     */
+    public function setOfflineSessionIdleTimeout($offlineSessionIdleTimeout)
+    {
+        $this->offlineSessionIdleTimeout = $offlineSessionIdleTimeout;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOfflineSessionMaxLifespan()
+    {
+        return $this->offlineSessionMaxLifespan;
+    }
+
+    /**
+     * @param mixed $offlineSessionMaxLifespan
+     * @return Realm
+     */
+    public function setOfflineSessionMaxLifespan($offlineSessionMaxLifespan)
+    {
+        $this->offlineSessionMaxLifespan = $offlineSessionMaxLifespan;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOfflineSessionMaxLifespanEnabled()
+    {
+        return $this->offlineSessionMaxLifespanEnabled;
+    }
+
+    /**
+     * @param mixed $offlineSessionMaxLifespanEnabled
+     * @return Realm
+     */
+    public function setOfflineSessionMaxLifespanEnabled($offlineSessionMaxLifespanEnabled)
+    {
+        $this->offlineSessionMaxLifespanEnabled = $offlineSessionMaxLifespanEnabled;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtpPolicyAlgorithm()
+    {
+        return $this->otpPolicyAlgorithm;
+    }
+
+    /**
+     * @param mixed $otpPolicyAlgorithm
+     * @return Realm
+     */
+    public function setOtpPolicyAlgorithm($otpPolicyAlgorithm)
+    {
+        $this->otpPolicyAlgorithm = $otpPolicyAlgorithm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtpPolicyDigits()
+    {
+        return $this->otpPolicyDigits;
+    }
+
+    /**
+     * @param mixed $otpPolicyDigits
+     * @return Realm
+     */
+    public function setOtpPolicyDigits($otpPolicyDigits)
+    {
+        $this->otpPolicyDigits = $otpPolicyDigits;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtpPolicyInitialCounter()
+    {
+        return $this->otpPolicyInitialCounter;
+    }
+
+    /**
+     * @param mixed $otpPolicyInitialCounter
+     * @return Realm
+     */
+    public function setOtpPolicyInitialCounter($otpPolicyInitialCounter)
+    {
+        $this->otpPolicyInitialCounter = $otpPolicyInitialCounter;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtpPolicyLookAheadWindow()
+    {
+        return $this->otpPolicyLookAheadWindow;
+    }
+
+    /**
+     * @param mixed $otpPolicyLookAheadWindow
+     * @return Realm
+     */
+    public function setOtpPolicyLookAheadWindow($otpPolicyLookAheadWindow)
+    {
+        $this->otpPolicyLookAheadWindow = $otpPolicyLookAheadWindow;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtpPolicyPeriod()
+    {
+        return $this->otpPolicyPeriod;
+    }
+
+    /**
+     * @param mixed $otpPolicyPeriod
+     * @return Realm
+     */
+    public function setOtpPolicyPeriod($otpPolicyPeriod)
+    {
+        $this->otpPolicyPeriod = $otpPolicyPeriod;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtpPolicyType()
+    {
+        return $this->otpPolicyType;
+    }
+
+    /**
+     * @param mixed $otpPolicyType
+     * @return Realm
+     */
+    public function setOtpPolicyType($otpPolicyType)
+    {
+        $this->otpPolicyType = $otpPolicyType;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtpSupportedApplications()
+    {
+        return $this->otpSupportedApplications;
+    }
+
+    /**
+     * @param mixed $otpSupportedApplications
+     * @return Realm
+     */
+    public function setOtpSupportedApplications($otpSupportedApplications)
+    {
+        $this->otpSupportedApplications = $otpSupportedApplications;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordPolicy()
+    {
+        return $this->passwordPolicy;
+    }
+
+    /**
+     * @param mixed $passwordPolicy
+     * @return Realm
+     */
+    public function setPasswordPolicy($passwordPolicy)
+    {
+        $this->passwordPolicy = $passwordPolicy;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPermanentLockout()
+    {
+        return $this->permanentLockout;
+    }
+
+    /**
+     * @param mixed $permanentLockout
+     * @return Realm
+     */
+    public function setPermanentLockout($permanentLockout)
+    {
+        $this->permanentLockout = $permanentLockout;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProtocolMappers()
+    {
+        return $this->protocolMappers;
+    }
+
+    /**
+     * @param mixed $protocolMappers
+     * @return Realm
+     */
+    public function setProtocolMappers($protocolMappers)
+    {
+        $this->protocolMappers = $protocolMappers;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuickLoginCheckMilliSeconds()
+    {
+        return $this->quickLoginCheckMilliSeconds;
+    }
+
+    /**
+     * @param mixed $quickLoginCheckMilliSeconds
+     * @return Realm
+     */
+    public function setQuickLoginCheckMilliSeconds($quickLoginCheckMilliSeconds)
+    {
+        $this->quickLoginCheckMilliSeconds = $quickLoginCheckMilliSeconds;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRealm()
+    {
+        return $this->realm;
+    }
+
+    /**
+     * @param mixed $realm
+     * @return Realm
+     */
+    public function setRealm($realm)
+    {
+        $this->realm = $realm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefreshTokenMaxReuse()
+    {
+        return $this->refreshTokenMaxReuse;
+    }
+
+    /**
+     * @param mixed $refreshTokenMaxReuse
+     * @return Realm
+     */
+    public function setRefreshTokenMaxReuse($refreshTokenMaxReuse)
+    {
+        $this->refreshTokenMaxReuse = $refreshTokenMaxReuse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegistrationAllowed()
+    {
+        return $this->registrationAllowed;
+    }
+
+    /**
+     * @param mixed $registrationAllowed
+     * @return Realm
+     */
+    public function setRegistrationAllowed($registrationAllowed)
+    {
+        $this->registrationAllowed = $registrationAllowed;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegistrationEmailAsUsername()
+    {
+        return $this->registrationEmailAsUsername;
+    }
+
+    /**
+     * @param mixed $registrationEmailAsUsername
+     * @return Realm
+     */
+    public function setRegistrationEmailAsUsername($registrationEmailAsUsername)
+    {
+        $this->registrationEmailAsUsername = $registrationEmailAsUsername;
         return $this;
     }
 
@@ -1920,18 +1879,36 @@ class Realm implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getDirectGrantFlow()
+    public function getRememberMe()
     {
-        return $this->directGrantFlow;
+        return $this->rememberMe;
     }
 
     /**
-     * @param mixed $directGrantFlow
+     * @param mixed $rememberMe
      * @return Realm
      */
-    public function setDirectGrantFlow($directGrantFlow)
+    public function setRememberMe($rememberMe)
     {
-        $this->directGrantFlow = $directGrantFlow;
+        $this->rememberMe = $rememberMe;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequiredActions()
+    {
+        return $this->requiredActions;
+    }
+
+    /**
+     * @param mixed $requiredActions
+     * @return Realm
+     */
+    public function setRequiredActions($requiredActions)
+    {
+        $this->requiredActions = $requiredActions;
         return $this;
     }
 
@@ -1956,54 +1933,234 @@ class Realm implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getClientAuthenticationFlow()
+    public function getResetPasswordAllowed()
     {
-        return $this->clientAuthenticationFlow;
+        return $this->resetPasswordAllowed;
     }
 
     /**
-     * @param mixed $clientAuthenticationFlow
+     * @param mixed $resetPasswordAllowed
      * @return Realm
      */
-    public function setClientAuthenticationFlow($clientAuthenticationFlow)
+    public function setResetPasswordAllowed($resetPasswordAllowed)
     {
-        $this->clientAuthenticationFlow = $clientAuthenticationFlow;
+        $this->resetPasswordAllowed = $resetPasswordAllowed;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getDockerAuthenticationFlow()
+    public function getRevokeRefreshToken()
     {
-        return $this->dockerAuthenticationFlow;
+        return $this->revokeRefreshToken;
     }
 
     /**
-     * @param mixed $dockerAuthenticationFlow
+     * @param mixed $revokeRefreshToken
      * @return Realm
      */
-    public function setDockerAuthenticationFlow($dockerAuthenticationFlow)
+    public function setRevokeRefreshToken($revokeRefreshToken)
     {
-        $this->dockerAuthenticationFlow = $dockerAuthenticationFlow;
+        $this->revokeRefreshToken = $revokeRefreshToken;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getAttributes()
+    public function getRoles()
     {
-        return $this->attributes;
+        return $this->roles;
     }
 
     /**
-     * @param mixed $attributes
+     * @param mixed $roles
      * @return Realm
      */
-    public function setAttributes($attributes)
+    public function setRoles($roles)
     {
-        $this->attributes = $attributes;
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScopeMappings()
+    {
+        return $this->scopeMappings;
+    }
+
+    /**
+     * @param mixed $scopeMappings
+     * @return Realm
+     */
+    public function setScopeMappings($scopeMappings)
+    {
+        $this->scopeMappings = $scopeMappings;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSmtpServer()
+    {
+        return $this->smtpServer;
+    }
+
+    /**
+     * @param mixed $smtpServer
+     * @return Realm
+     */
+    public function setSmtpServer($smtpServer)
+    {
+        $this->smtpServer = $smtpServer;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSslRequired()
+    {
+        return $this->sslRequired;
+    }
+
+    /**
+     * @param mixed $sslRequired
+     * @return Realm
+     */
+    public function setSslRequired($sslRequired)
+    {
+        $this->sslRequired = $sslRequired;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSsoSessionIdleTimeout()
+    {
+        return $this->ssoSessionIdleTimeout;
+    }
+
+    /**
+     * @param mixed $ssoSessionIdleTimeout
+     * @return Realm
+     */
+    public function setSsoSessionIdleTimeout($ssoSessionIdleTimeout)
+    {
+        $this->ssoSessionIdleTimeout = $ssoSessionIdleTimeout;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSsoSessionIdleTimeoutRememberMe()
+    {
+        return $this->ssoSessionIdleTimeoutRememberMe;
+    }
+
+    /**
+     * @param mixed $ssoSessionIdleTimeoutRememberMe
+     * @return Realm
+     */
+    public function setSsoSessionIdleTimeoutRememberMe($ssoSessionIdleTimeoutRememberMe)
+    {
+        $this->ssoSessionIdleTimeoutRememberMe = $ssoSessionIdleTimeoutRememberMe;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSsoSessionMaxLifespan()
+    {
+        return $this->ssoSessionMaxLifespan;
+    }
+
+    /**
+     * @param mixed $ssoSessionMaxLifespan
+     * @return Realm
+     */
+    public function setSsoSessionMaxLifespan($ssoSessionMaxLifespan)
+    {
+        $this->ssoSessionMaxLifespan = $ssoSessionMaxLifespan;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSsoSessionMaxLifespanRememberMe()
+    {
+        return $this->ssoSessionMaxLifespanRememberMe;
+    }
+
+    /**
+     * @param mixed $ssoSessionMaxLifespanRememberMe
+     * @return Realm
+     */
+    public function setSsoSessionMaxLifespanRememberMe($ssoSessionMaxLifespanRememberMe)
+    {
+        $this->ssoSessionMaxLifespanRememberMe = $ssoSessionMaxLifespanRememberMe;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSupportedLocales()
+    {
+        return $this->supportedLocales;
+    }
+
+    /**
+     * @param mixed $supportedLocales
+     * @return Realm
+     */
+    public function setSupportedLocales($supportedLocales)
+    {
+        $this->supportedLocales = $supportedLocales;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserFederationMappers()
+    {
+        return $this->userFederationMappers;
+    }
+
+    /**
+     * @param mixed $userFederationMappers
+     * @return Realm
+     */
+    public function setUserFederationMappers($userFederationMappers)
+    {
+        $this->userFederationMappers = $userFederationMappers;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserFederationProviders()
+    {
+        return $this->userFederationProviders;
+    }
+
+    /**
+     * @param mixed $userFederationProviders
+     * @return Realm
+     */
+    public function setUserFederationProviders($userFederationProviders)
+    {
+        $this->userFederationProviders = $userFederationProviders;
         return $this;
     }
 
@@ -2022,6 +2179,60 @@ class Realm implements \JsonSerializable
     public function setUserManagedAccessAllowed($userManagedAccessAllowed)
     {
         $this->userManagedAccessAllowed = $userManagedAccessAllowed;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param mixed $users
+     * @return Realm
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVerifyEmail()
+    {
+        return $this->verifyEmail;
+    }
+
+    /**
+     * @param mixed $verifyEmail
+     * @return Realm
+     */
+    public function setVerifyEmail($verifyEmail)
+    {
+        $this->verifyEmail = $verifyEmail;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWaitIncrementSeconds()
+    {
+        return $this->waitIncrementSeconds;
+    }
+
+    /**
+     * @param mixed $waitIncrementSeconds
+     * @return Realm
+     */
+    public function setWaitIncrementSeconds($waitIncrementSeconds)
+    {
+        $this->waitIncrementSeconds = $waitIncrementSeconds;
         return $this;
     }
 }
