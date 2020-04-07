@@ -6,17 +6,18 @@ namespace KeycloakAdmin\Roles;
 
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
+use KeycloakAdmin\Utils\Collection;
 
-class RoleCollection
+class RoleCollection extends Collection
 {
     /**
      * @Type("array<KeycloakAdmin\Roles\Role>")
      * @Serializer\Inline()
      */
-    private $roles;
+    protected $data;
 
     public function getRoles()
     {
-        return $this->roles;
+        return $this->data;
     }
 }

@@ -6,17 +6,18 @@ namespace KeycloakAdmin\Users;
 
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
+use KeycloakAdmin\Utils\Collection;
 
-class UserCollection
+class UserCollection extends Collection
 {
     /**
      * @Type("array<KeycloakAdmin\Users\User>")
      * @Serializer\Inline()
      */
-    private $users;
+    protected $data;
 
     public function getUsers()
     {
-        return $this->users;
+        return $this->data;
     }
 }

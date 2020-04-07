@@ -6,17 +6,18 @@ namespace KeycloakAdmin\Realms;
 
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
+use KeycloakAdmin\Utils\Collection;
 
-class RealmCollection
+class RealmCollection extends Collection
 {
     /**
      * @Type("array<KeycloakAdmin\Realms\Realm>")
      * @Serializer\Inline()
      */
-    private $realms;
+    protected $data;
 
     public function getRealms()
     {
-        return $this->realms;
+        return $this->data;
     }
 }
