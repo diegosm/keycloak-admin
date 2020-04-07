@@ -211,28 +211,19 @@ class ClientManager
         return;
     }
 
-    public function getClientCredentials(string $idOfClient) : CredentialRepresentation
+    /**
+     * @param string $idOfClient
+     * @return ClientCredentialManager
+     */
+    public function credentials(string $idOfClient) : ClientCredentialManager
     {
-        $data = [
-            'headers' => $this->keycloakAuth->getDefaultHeaders()
-        ];
-
-        $request = $this->clientHttp->request(
-            'GET',
-            $this->keycloakAdminConfig->getUrl(
-                'admin/realms/' . $this->realmName . '/clients/' . $idOfClient . '/client-secret'
-            ),
-            $data
-        );
-
-        if ($request->getStatusCode() !== 200) {
-            throw new RequestInvalidException();
-        }
-
-        return $this->serializer->deserialize(
-            $request->getBody()->getContents(),
-            CredentialRepresentation::class,
-            'json'
+        return new ClientCredentialManager(
+            $this->clientHttp,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $this->realmName,
+            $idOfClient
         );
     }
 
