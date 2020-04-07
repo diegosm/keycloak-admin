@@ -121,11 +121,11 @@ class ClientManager
     }
 
     /**
-     * @param string $clientId
+     * @param string $idOfClient
      * @return Client
      * @throws ClientNotFoundException
      */
-    public function show(string $clientId): Client
+    public function show(string $idOfClient): Client
     {
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders(),
@@ -133,7 +133,7 @@ class ClientManager
 
         $request = $this->clientHttp->request(
             'GET',
-            $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/clients/' . $clientId),
+            $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/clients/' . $idOfClient),
             $data
         );
 
