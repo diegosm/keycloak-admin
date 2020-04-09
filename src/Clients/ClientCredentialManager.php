@@ -64,6 +64,19 @@ class ClientCredentialManager
     }
 
     /**
+     * This is to keep pattern of keycloak rest api
+     * https://www.keycloak.org/docs-api/5.0/rest-api/index.html#_clients_resource
+     *
+     * @return CredentialRepresentation
+     * @throws ClientSaveCredentialRepresentationException
+     * @throws RequestInvalidException
+     */
+    public function generate() : CredentialRepresentation
+    {
+        return $this->save();
+    }
+
+    /**
      * You can pass a new CredentialRepresentation or simply generate one automatically
      *
      * @return CredentialRepresentation
@@ -97,18 +110,9 @@ class ClientCredentialManager
     }
 
     /**
-     * This is to keep pattern of keycloak rest api
-     * https://www.keycloak.org/docs-api/5.0/rest-api/index.html#_clients_resource
-     *
      * @return CredentialRepresentation
-     * @throws ClientSaveCredentialRepresentationException
      * @throws RequestInvalidException
      */
-    public function generate() : CredentialRepresentation
-    {
-        return $this->save();
-    }
-
     public function get() : CredentialRepresentation
     {
         $data = [

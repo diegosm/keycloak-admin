@@ -2,27 +2,26 @@
 
 declare(strict_types=1);
 
-namespace KeycloakAdmin\Clients;
+namespace KeycloakAdmin\ClientScopes;
 
-use GuzzleHttp\Client as ClientHttp;
+use GuzzleHttp\Client;
 use JMS\Serializer\SerializerInterface;
-use KeycloakAdmin\Clients\Exceptions\ClientDeleteException;
-use KeycloakAdmin\Clients\Exceptions\ClientInvalidException;
-use KeycloakAdmin\Clients\Exceptions\ClientNotFoundException;
-use KeycloakAdmin\Clients\Exceptions\ClientSaveException;
-use KeycloakAdmin\Clients\Exceptions\ClientUpdateException;
-use KeycloakAdmin\Credentials\CredentialRepresentation;
+use KeycloakAdmin\ClientScopes\Exceptions\ClientScopeDeleteException;
+use KeycloakAdmin\ClientScopes\Exceptions\ClientScopeInvalidException;
+use KeycloakAdmin\ClientScopes\Exceptions\ClientScopeNotFoundException;
+use KeycloakAdmin\ClientScopes\Exceptions\ClientScopeSaveException;
+use KeycloakAdmin\ClientScopes\Exceptions\ClientScopeUpdateException;
 use KeycloakAdmin\Keycloak\Exceptions\RequestInvalidException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
 use KeycloakAdmin\Traits\CreatableTrait;
 
-class ClientManager
+class ClientScopeManager
 {
     use CreatableTrait;
 
-    /** @var ClientHttp */
-    private $clientHttp;
+    /** @var Client */
+    private $client;
 
     /** @var KeycloakAdminConfig */
     private $keycloakAdminConfig;
@@ -36,25 +35,25 @@ class ClientManager
     /** @var string */
     private $realmName;
 
-    /** @var Client */
+    /** @var ClientScope */
     private $resource;
 
     /**
      * ClientManager constructor.
-     * @param ClientHttp $clientHttp
+     * @param Client $client
      * @param KeycloakAdminConfig $keycloakAdminConfig
      * @param SerializerInterface $serializer
      * @param KeycloakAuth $keycloakAuth
      * @param string $realmName
      */
     public function __construct(
-        ClientHttp $clientHttp,
+        Client $client,
         KeycloakAdminConfig $keycloakAdminConfig,
         SerializerInterface $serializer,
         KeycloakAuth $keycloakAuth,
         string $realmName
     ) {
-        $this->clientHttp = $clientHttp;
+        $this->client = $client;
         $this->keycloakAdminConfig = $keycloakAdminConfig;
         $this->serializer = $serializer;
         $this->keycloakAuth = $keycloakAuth;
@@ -62,18 +61,18 @@ class ClientManager
     }
 
     /**
-     * @return ClientCollection
+     * @return ClientScopeCollection
      * @throws RequestInvalidException
      */
-    public function list(): ClientCollection
+    public function list() : ClientScopeCollection
     {
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders()
         ];
 
-        $request = $this->clientHttp->request(
+        $request = $this->client->request(
             'GET',
-            $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/clients'),
+            $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/client-scopes'),
             $data
         );
 
@@ -83,20 +82,20 @@ class ClientManager
 
         return $this->serializer->deserialize(
             $request->getBody()->getContents(),
-            ClientCollection::class,
+            ClientScopeCollection::class,
             'json'
         );
     }
 
     /**
-     * @return Client
-     * @throws ClientInvalidException
-     * @throws ClientSaveException
+     * @return ClientScope
+     * @throws ClientScopeInvalidException
+     * @throws ClientScopeSaveException
      */
-    public function save(): Client
+    public function save() : ClientScope
     {
         if (empty($this->resource)) {
-            throw new ClientInvalidException();
+            throw new ClientScopeInvalidException();
         }
 
         $data = [
@@ -105,56 +104,56 @@ class ClientManager
         ];
 
         try {
-            $request = $this->clientHttp->request(
+            $request = $this->client->request(
                 'POST',
-                $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/clients'),
+                $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/client-scopes'),
                 $data
             );
 
             if ($request->getStatusCode() !== 201) {
-                throw new ClientSaveException();
+                throw new ClientScopeSaveException();
             }
         } catch (\Exception $exception) {
-            throw new ClientSaveException();
+            throw new ClientScopeSaveException();
         }
 
         return $this->resource;
     }
 
     /**
-     * @param string $idOfClient
-     * @return Client
-     * @throws ClientNotFoundException
+     * @param string $id
+     * @return ClientScope
+     * @throws ClientScopeNotFoundException
      */
-    public function show(string $idOfClient): Client
+    public function show(string $id) : ClientScope
     {
         $data = [
-            'headers' => $this->keycloakAuth->getDefaultHeaders(),
+            'headers' => $this->keycloakAuth->getDefaultHeaders()
         ];
 
-        $request = $this->clientHttp->request(
+        $request = $this->client->request(
             'GET',
-            $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/clients/' . $idOfClient),
+            $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/client-scopes/' . $id),
             $data
         );
 
         if ($request->getStatusCode() !== 200) {
-            throw new ClientNotFoundException();
+            throw new ClientScopeNotFoundException();
         }
 
         return $this->deserialize($request->getBody()->getContents());
     }
 
     /**
-     * @return Client
-     * @throws ClientInvalidException
-     * @throws ClientNotFoundException
-     * @throws ClientUpdateException
+     * @return ClientScope
+     * @throws ClientScopeInvalidException
+     * @throws ClientScopeNotFoundException
+     * @throws ClientScopeUpdateException
      */
-    public function update(): Client
+    public function update() : ClientScope
     {
         if (empty($this->resource)) {
-            throw new ClientInvalidException();
+            throw new ClientScopeInvalidException();
         }
 
         $data = [
@@ -163,77 +162,59 @@ class ClientManager
         ];
 
         try {
-            $request = $this->clientHttp->request(
+            $request = $this->client->request(
                 'PUT',
                 $this->keycloakAdminConfig->getUrl(
-                    'admin/realms/' . $this->realmName . '/clients/' . $this->resource->getId()
+                    'admin/realms/' . $this->realmName . '/client-scopes/' . $this->resource->getId()
                 ),
                 $data
             );
 
             if ($request->getStatusCode() !== 204) {
-                throw new ClientUpdateException();
+                throw new ClientScopeUpdateException();
             }
         } catch (\Exception $exception) {
-            throw new ClientUpdateException();
+            throw new ClientScopeUpdateException();
         }
 
         return $this->show($this->resource->getId());
     }
 
     /**
-     * @param string $idOfClient
-     * @throws ClientDeleteException
+     * @param string $id
+     * @throws ClientScopeDeleteException
      */
-    public function delete(string $idOfClient) : void
+    public function delete(string $id) : void
     {
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders(),
         ];
 
         try {
-            $request = $this->clientHttp->request(
+            $request = $this->client->request(
                 'DELETE',
-                $this->keycloakAdminConfig->getUrl(
-                    'admin/realms/' . $this->realmName . '/clients/' . $idOfClient
-                ),
+                $this->keycloakAdminConfig->getUrl('admin/realms/' . $this->realmName . '/client-scopes/' . $id),
                 $data
             );
 
             if ($request->getStatusCode() !== 204) {
-                throw new ClientDeleteException();
+                throw new ClientScopeDeleteException();
             }
         } catch (\Exception $exception) {
-            throw new ClientDeleteException();
+            throw new ClientScopeDeleteException();
         }
 
         return;
     }
 
     /**
-     * @param string $idOfClient
-     * @return ClientCredentialManager
-     */
-    public function credentials(string $idOfClient) : ClientCredentialManager
-    {
-        return new ClientCredentialManager(
-            $this->clientHttp,
-            $this->keycloakAdminConfig,
-            $this->serializer,
-            $this->keycloakAuth,
-            $this->realmName,
-            $idOfClient
-        );
-    }
-
-    /**
      * @param string $idOfClientScope
-     * @return ClientProtocolMapperManager
+     * @return ClientScopeProtocolMapperManager
      */
-    public function protocolMappers(string $idOfClientScope) : ClientProtocolMapperManager
+    public function protocolMappers(string $idOfClientScope) : ClientScopeProtocolMapperManager
     {
-        return new ClientProtocolMapperManager(
-            $this->clientHttp,
+        return new ClientScopeProtocolMapperManager(
+            $this->client,
             $this->keycloakAdminConfig,
             $this->serializer,
             $this->keycloakAuth,
@@ -243,20 +224,20 @@ class ClientManager
     }
 
     /**
-     * @return Client
-     * @throws ClientNotFoundException
+     * @return ClientScope
+     * @throws ClientScopeNotFoundException
      */
-    public function getClient() : Client
+    public function getClientScope() : ClientScope
     {
         if (empty($this->resource)) {
-            throw new ClientNotFoundException();
+            throw new ClientScopeNotFoundException();
         }
 
         return $this->resource;
     }
 
-    private function deserialize(string $data) : Client
+    private function deserialize(string $data) : ClientScope
     {
-        return $this->serializer->deserialize($data, Client::class, 'json');
+        return $this->serializer->deserialize($data, ClientScope::class, 'json');
     }
 }

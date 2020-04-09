@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use KeycloakAdmin\Clients\Client;
 use KeycloakAdmin\Clients\ClientCollection;
 use KeycloakAdmin\Clients\ClientManager;
+use KeycloakAdmin\Clients\ClientProtocolMapperManager;
 use Tests\BaseTest;
 
 class ClientTest extends BaseTest
@@ -86,13 +87,13 @@ class ClientTest extends BaseTest
         $updateResponse = new Response(
             204,
             [],
-            file_get_contents('tests/Stubs/Clients/update.json')
+            $json
         );
 
         $showResponse = new Response(
             200,
             [],
-            $json
+            file_get_contents('tests/Stubs/Clients/update.json')
         );
 
         $client = $this->getMockBuilder(\GuzzleHttp\Client::class)->getMock();
@@ -118,6 +119,16 @@ class ClientTest extends BaseTest
 
         $this->assertNull(
             $manager->delete('idMyClient')
+        );
+    }
+
+    public function testItMustHaveProtocolMapperManager()
+    {
+        $manager = $this->createClientManager();
+
+        $this->assertInstanceOf(
+            ClientProtocolMapperManager::class,
+            $manager->protocolMappers('123')
         );
     }
 

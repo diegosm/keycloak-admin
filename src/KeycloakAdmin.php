@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 
 use JMS\Serializer\SerializerInterface;
 use KeycloakAdmin\Clients\ClientManager;
+use KeycloakAdmin\ClientScopes\ClientScopeManager;
 use KeycloakAdmin\Keycloak\Exceptions\UnauthorizedException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
@@ -29,6 +30,13 @@ class KeycloakAdmin
     /** @var KeycloakAuth */
     private $keycloakAuth;
 
+    /**
+     * KeycloakAdmin constructor.
+     * @param Client $client
+     * @param KeycloakAdminConfig $keycloakAdminConfig
+     * @param SerializerInterface $serializer
+     * @throws UnauthorizedException
+     */
     public function __construct(
         Client $client,
         KeycloakAdminConfig $keycloakAdminConfig,
@@ -41,6 +49,10 @@ class KeycloakAdmin
         $this->login();
     }
 
+    /**
+     * Login method used for get keycloak access
+     * @throws UnauthorizedException
+     */
     private function login() : void
     {
         $data = [
@@ -87,6 +99,17 @@ class KeycloakAdmin
     public function client(string $realmName) : ClientManager
     {
         return new ClientManager(
+            $this->client,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $realmName
+        );
+    }
+
+    public function clientScope(string $realmName) : ClientScopeManager
+    {
+        return new ClientScopeManager(
             $this->client,
             $this->keycloakAdminConfig,
             $this->serializer,

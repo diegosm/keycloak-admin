@@ -1,0 +1,15 @@
+{
+  "id": "my-map-wow4444",
+  "name": "my-scope-mapper4444",
+  "protocol": "openid-connect",
+  "protocolMapper": "oidc-usermodel-attribute-mapper",
+  "consentRequired": false,
+  "config": {
+    "userinfo.token.claim": "true",
+    "user.attribute": "qqqq",
+    "id.token.claim": "true",
+    "access.token.claim": "true",
+    "claim.name": "qqqq",
+    "jsonType.label": "JSON"
+  }
+}

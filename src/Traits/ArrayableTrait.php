@@ -6,10 +6,24 @@ namespace KeycloakAdmin\Traits;
 
 trait ArrayableTrait
 {
-    public function toArray()
+    public function toArray(array $array = [])
     {
-        return array_filter(get_object_vars($this), function ($item) {
+        if (empty($array)) {
+            $array = get_object_vars($this);
+        }
+
+        return array_map(function ($item) {
+            if (is_array($item)) {
+                return $this->toArray($item);
+            }
+
+            if (is_object($item)) {
+                return $item->toArray();
+            }
+
+            return $item;
+        }, array_filter($array, function ($item) {
             return null !== $item;
-        });
+        }));
     }
 }
