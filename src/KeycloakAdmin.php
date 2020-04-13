@@ -86,6 +86,9 @@ class KeycloakAdmin
         }
     }
 
+    /**
+     * @return RealmManager
+     */
     public function realm() : RealmManager
     {
         return new RealmManager(
@@ -96,6 +99,10 @@ class KeycloakAdmin
         );
     }
 
+    /**
+     * @param string $realmName
+     * @return ClientManager
+     */
     public function client(string $realmName) : ClientManager
     {
         return new ClientManager(
@@ -107,6 +114,10 @@ class KeycloakAdmin
         );
     }
 
+    /**
+     * @param string $realmName
+     * @return ClientScopeManager
+     */
     public function clientScope(string $realmName) : ClientScopeManager
     {
         return new ClientScopeManager(

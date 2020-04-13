@@ -14,7 +14,7 @@ use KeycloakAdmin\Roles\Exceptions\RoleInvalidException;
 use KeycloakAdmin\Roles\Exceptions\RoleNotFoundException;
 use KeycloakAdmin\Roles\Exceptions\RoleSaveException;
 use KeycloakAdmin\Roles\Exceptions\RoleUpdateException;
-use KeycloakAdmin\Traits\CreatableTrait;
+use KeycloakAdmin\Keycloak\Traits\CreatableTrait;
 
 class RoleManager
 {

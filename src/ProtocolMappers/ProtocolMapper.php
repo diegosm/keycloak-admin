@@ -6,8 +6,8 @@ namespace KeycloakAdmin\ProtocolMappers;
 
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
-use KeycloakAdmin\Traits\ArrayableTrait;
-use KeycloakAdmin\Traits\JsonableTrait;
+use KeycloakAdmin\Keycloak\Traits\ArrayableTrait;
+use KeycloakAdmin\Keycloak\Traits\JsonableTrait;
 
 class ProtocolMapper implements \JsonSerializable
 {

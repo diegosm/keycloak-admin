@@ -6,8 +6,8 @@ namespace KeycloakAdmin\Roles;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
-use KeycloakAdmin\Traits\ArrayableTrait;
-use KeycloakAdmin\Traits\JsonableTrait;
+use KeycloakAdmin\Keycloak\Traits\ArrayableTrait;
+use KeycloakAdmin\Keycloak\Traits\JsonableTrait;
 
 class Role implements \JsonSerializable
 {

@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace KeycloakAdmin\Realms;
 
-use JMS\Serializer\Annotation as Serializer;
-use JMS\Serializer\Annotation\Inline;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
-use KeycloakAdmin\Traits\ArrayableTrait;
-use KeycloakAdmin\Traits\JsonableTrait;
+use KeycloakAdmin\Keycloak\Traits\ArrayableTrait;
+use KeycloakAdmin\Keycloak\Traits\JsonableTrait;
 
 class Realm implements \JsonSerializable
 {

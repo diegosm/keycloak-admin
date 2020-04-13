@@ -9,7 +9,7 @@ use JMS\Serializer\SerializerInterface;
 use KeycloakAdmin\Keycloak\Exceptions\RequestInvalidException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
-use KeycloakAdmin\Traits\CreatableTrait;
+use KeycloakAdmin\Keycloak\Traits\CreatableTrait;
 use KeycloakAdmin\Users\Exceptions\UserDeleteException;
 use KeycloakAdmin\Users\Exceptions\UserInvalidException;
 use KeycloakAdmin\Users\Exceptions\UserInvalidLogoutException;

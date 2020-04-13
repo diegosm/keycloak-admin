@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use KeycloakAdmin\Clients\ClientManager;
+use KeycloakAdmin\ClientScopes\ClientScopeManager;
 use KeycloakAdmin\Keycloak\Exceptions\UnauthorizedException;
 use KeycloakAdmin\KeycloakAdmin;
 use KeycloakAdmin\Realms\RealmManager;
@@ -56,6 +57,15 @@ class KeycloakAdminTest extends BaseTest
         $manager = $this->createAdminManager($client);
 
         $this->assertInstanceOf(UserManager::class, $manager->user('realm'));
+    }
+
+    public function testMustHaveClientScopeManager()
+    {
+        $client = $this->createStubClient('Keycloak/authorized.json', 200);
+
+        $manager = $this->createAdminManager($client);
+
+        $this->assertInstanceOf(ClientScopeManager::class, $manager->clientScope('realm'));
     }
 
     private function createAdminManager($client) : KeycloakAdmin

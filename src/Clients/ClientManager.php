@@ -11,11 +11,10 @@ use KeycloakAdmin\Clients\Exceptions\ClientInvalidException;
 use KeycloakAdmin\Clients\Exceptions\ClientNotFoundException;
 use KeycloakAdmin\Clients\Exceptions\ClientSaveException;
 use KeycloakAdmin\Clients\Exceptions\ClientUpdateException;
-use KeycloakAdmin\Credentials\CredentialRepresentation;
 use KeycloakAdmin\Keycloak\Exceptions\RequestInvalidException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
-use KeycloakAdmin\Traits\CreatableTrait;
+use KeycloakAdmin\Keycloak\Traits\CreatableTrait;
 
 class ClientManager
 {
@@ -227,10 +226,10 @@ class ClientManager
     }
 
     /**
-     * @param string $idOfClientScope
+     * @param string $idOfClient
      * @return ClientProtocolMapperManager
      */
-    public function protocolMappers(string $idOfClientScope) : ClientProtocolMapperManager
+    public function protocolMappers(string $idOfClient) : ClientProtocolMapperManager
     {
         return new ClientProtocolMapperManager(
             $this->clientHttp,
@@ -238,7 +237,7 @@ class ClientManager
             $this->serializer,
             $this->keycloakAuth,
             $this->realmName,
-            $idOfClientScope
+            $idOfClient
         );
     }
 

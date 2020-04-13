@@ -14,8 +14,7 @@ use KeycloakAdmin\ProtocolMappers\Exceptions\ProtocolMapperInvalidException;
 use KeycloakAdmin\ProtocolMappers\Exceptions\ProtocolMapperNotFoundException;
 use KeycloakAdmin\ProtocolMappers\Exceptions\ProtocolMapperSaveException;
 use KeycloakAdmin\ProtocolMappers\Exceptions\ProtocolMapperUpdateException;
-
-use KeycloakAdmin\Traits\CreatableTrait;
+use KeycloakAdmin\Keycloak\Traits\CreatableTrait;
 
 abstract class AbstractProtocolMapperManager
 {

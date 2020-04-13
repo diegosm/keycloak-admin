@@ -9,7 +9,7 @@ use JMS\Serializer\SerializerInterface;
 use KeycloakAdmin\Credentials\CredentialRepresentation;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
-use KeycloakAdmin\Traits\CreatableTrait;
+use KeycloakAdmin\Keycloak\Traits\CreatableTrait;
 use KeycloakAdmin\Users\Exceptions\UserEmptyCredentialRepresentationException;
 use KeycloakAdmin\Users\Exceptions\UserInvalidCredentialRepresentationException;
 

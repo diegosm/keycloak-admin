@@ -1,6 +1,9 @@
 # keycloak-admin
 PHP Library for Keycloak Rest API management
 
+## Documentation
+The documentation of this project is available at https://keycloak-admin-documentation.readthedocs.io/en/latest/
+
 ## Installation
 ```composer log
 composer require diegosm/keycloak-admin

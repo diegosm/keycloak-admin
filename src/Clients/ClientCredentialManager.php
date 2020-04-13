@@ -11,7 +11,7 @@ use KeycloakAdmin\Credentials\CredentialRepresentation;
 use KeycloakAdmin\Keycloak\Exceptions\RequestInvalidException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
-use KeycloakAdmin\Traits\CreatableTrait;
+use KeycloakAdmin\Keycloak\Traits\CreatableTrait;
 
 class ClientCredentialManager
 {
