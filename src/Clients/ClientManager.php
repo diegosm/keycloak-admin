@@ -242,6 +242,22 @@ class ClientManager
     }
 
     /**
+     * @param string $idOfClient
+     * @return ClientRoleManager
+     */
+    public function roles(string $idOfClient) : ClientRoleManager
+    {
+        return new ClientRoleManager(
+            $this->clientHttp,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $this->realmName,
+            $idOfClient
+        );
+    }
+
+    /**
      * @return Client
      * @throws ClientNotFoundException
      */

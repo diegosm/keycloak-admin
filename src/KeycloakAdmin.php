@@ -131,18 +131,16 @@ class KeycloakAdmin
 
     /**
      * @param string $realmName
-     * @param string $idOfClient
      * @return RoleManager
      */
-    public function role(string $realmName, string $idOfClient) : RoleManager
+    public function role(string $realmName) : RoleManager
     {
         return new RoleManager(
             $this->client,
             $this->keycloakAdminConfig,
             $this->serializer,
             $this->keycloakAuth,
-            $realmName,
-            $idOfClient
+            $realmName
         );
     }
 

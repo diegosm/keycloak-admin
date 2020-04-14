@@ -9,6 +9,7 @@ use KeycloakAdmin\Clients\Client;
 use KeycloakAdmin\Clients\ClientCollection;
 use KeycloakAdmin\Clients\ClientManager;
 use KeycloakAdmin\Clients\ClientProtocolMapperManager;
+use KeycloakAdmin\Clients\ClientRoleManager;
 use Tests\BaseTest;
 
 class ClientTest extends BaseTest
@@ -129,6 +130,16 @@ class ClientTest extends BaseTest
         $this->assertInstanceOf(
             ClientProtocolMapperManager::class,
             $manager->protocolMappers('123')
+        );
+    }
+
+    public function testItMustHaveRolesManager()
+    {
+        $manager = $this->createClientManager();
+
+        $this->assertInstanceOf(
+            ClientRoleManager::class,
+            $manager->roles('123')
         );
     }
 

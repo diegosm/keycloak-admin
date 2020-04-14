@@ -65,13 +65,13 @@ class RoleTest extends BaseTest
         $updateResponse = new Response(
             204,
             [],
-            file_get_contents('tests/Stubs/Roles/update.json')
+            $json
         );
 
         $showResponse = new Response(
             200,
             [],
-            $json
+            file_get_contents('tests/Stubs/Roles/update.json')
         );
 
         $client = $this->getMockBuilder(\GuzzleHttp\Client::class)->getMock();
@@ -111,8 +111,7 @@ class RoleTest extends BaseTest
             $this->keycloakAdminConfig,
             $this->serializer,
             $this->keycloakAuth,
-            'master',
-            'id'
+            'master'
         );
     }
 }
