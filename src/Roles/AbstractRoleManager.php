@@ -111,7 +111,6 @@ abstract class AbstractRoleManager
                 throw new RoleSaveException();
             }
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
             throw new RoleSaveException();
         }
 
