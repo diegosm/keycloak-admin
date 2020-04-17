@@ -17,10 +17,14 @@ use KeycloakAdmin\Users\Exceptions\UserNotFoundException;
 use KeycloakAdmin\Users\Exceptions\UserSaveException;
 use KeycloakAdmin\Users\Exceptions\UserUpdateException;
 use KeycloakAdmin\Users\Exceptions\UserUsernameRequiredException;
+use KeycloakAdmin\Utils\Str;
 
 class UserManager
 {
     use CreatableTrait;
+
+    /** @var array */
+    private $filters = [];
 
     /**
      * @var Client
@@ -73,14 +77,31 @@ class UserManager
     }
 
     /**
+     * Allows to use filters on listing method
+     * https://www.keycloak.org/docs-api/5.0/rest-api/index.html#_users_resource
+     *
+     * @param string $key
+     * @param string $value
+     * @return $this
+     */
+    public function addFilter(string $key, string $value) : self
+    {
+        $this->filters[$key] = $value;
+        return $this;
+    }
+
+    /**
      * @return UserCollection
      * @throws RequestInvalidException
      */
     public function list() : UserCollection
     {
+        $filters = [];
+
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders()
         ];
+
 
         $request = $this->client->request(
             'GET',
@@ -278,15 +299,26 @@ class UserManager
         return $this->resource;
     }
 
+    private function resolveFilters() : string
+    {
+        return empty($this->filters) ? '' : '?' . http_build_query($this->filters, '?');
+    }
+
     /**
      * @param string $path
      * @return string
      */
     private function getBaseUrl(string $path = '') : string
     {
-        return $this->keycloakAdminConfig->getUrl(
-            'admin/realms/' . $this->realmName . '/users/' . $path
-        );
+        $base = 'admin/realms/' . $this->realmName . '/users/' . $path;
+
+        if (! Str::endsWith($base, '/')) {
+            $base .= '/';
+        }
+
+        $base .= $this->resolveFilters();
+
+        return $this->keycloakAdminConfig->getUrl($base);
     }
 
     /**
