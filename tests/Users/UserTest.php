@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use KeycloakAdmin\Users\User;
 use KeycloakAdmin\Users\UserCollection;
 use KeycloakAdmin\Users\UserManager;
+use KeycloakAdmin\Users\UserRoleMapperManager;
 use Tests\BaseTest;
 
 class UserTest extends BaseTest
@@ -109,6 +110,15 @@ class UserTest extends BaseTest
         $this->assertNull(
             $manager->delete('fdca49c1-80c8-4492-9c97-e808202f87dd')
         );
+    }
+
+    public function testMustHaveRoleMapperManager()
+    {
+        $client = $this->createStubClient('', 204);
+
+        $manager = $this->createUserManager($client);
+
+        $this->assertInstanceOf(UserRoleMapperManager::class, $manager->roleMappings('user-id'));
     }
 
     protected function createUserManager($clientHTTP = null) : UserManager

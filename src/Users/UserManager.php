@@ -96,12 +96,9 @@ class UserManager
      */
     public function list() : UserCollection
     {
-        $filters = [];
-
         $data = [
             'headers' => $this->keycloakAuth->getDefaultHeaders()
         ];
-
 
         $request = $this->client->request(
             'GET',
@@ -216,6 +213,7 @@ class UserManager
 
         return $this->show($this->resource->getId());
     }
+    
     /**
      * @param string $id
      * @throws UserDeleteException
@@ -250,6 +248,18 @@ class UserManager
     public function resetPassword(string  $id) : UserResetPasswordManager
     {
         return new UserResetPasswordManager(
+            $this->client,
+            $this->keycloakAdminConfig,
+            $this->serializer,
+            $this->keycloakAuth,
+            $this->realmName,
+            $id
+        );
+    }
+
+    public function roleMappings(string $id) : UserRoleMapperManager
+    {
+        return new UserRoleMapperManager(
             $this->client,
             $this->keycloakAdminConfig,
             $this->serializer,

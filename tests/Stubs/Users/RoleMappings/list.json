@@ -1,0 +1,25 @@
+[
+  {
+    "id":"828f5b0a-426c-4e08-b577-51134aa2a5fb",
+    "name":"offline_access",
+    "description":"${role_offline-access}",
+    "composite":false,
+    "clientRole":false,
+    "containerId":"e7ed2e11-7a4f-47cc-af79-58d8f8059f07"
+  },
+  {
+    "id":"04e9233e-0d0a-4cd8-b30a-e966ffd05b07",
+    "name":"account_user",
+    "composite":false,
+    "clientRole":false,
+    "containerId":"e7ed2e11-7a4f-47cc-af79-58d8f8059f07"
+  },
+  {
+    "id":"d7a88756-ea3a-4a96-adb1-0db65d2143b0",
+    "name":"uma_authorization",
+    "description":"${role_uma_authorization}",
+    "composite":false,
+    "clientRole":false,
+    "containerId":"e7ed2e11-7a4f-47cc-af79-58d8f8059f07"
+  }
+]
