@@ -20,6 +20,9 @@ class RoleCollection extends Collection implements \JsonSerializable
      */
     protected $data;
 
+    /**
+     * @return Role[]
+     */
     public function getRoles()
     {
         return $this->data;

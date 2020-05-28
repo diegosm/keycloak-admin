@@ -16,6 +16,9 @@ class ProtocolMapperCollection extends Collection
      */
     protected $data;
 
+    /**
+     * @return ProtocolMapper[]
+     */
     public function getData()
     {
         return $this->data;

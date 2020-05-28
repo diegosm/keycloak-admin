@@ -16,6 +16,9 @@ class ClientScopeCollection extends Collection
      */
     protected $data;
 
+    /**
+     * @return ClientScope[]
+     */
     public function getData()
     {
         return $this->data;
