@@ -4,6 +4,7 @@
     "license": "MIT",
     "type": "library",
     "require": {
+        "php": "^7.1",
         "guzzlehttp/guzzle": "^6.5",
         "jms/serializer": "^3.6",
         "ext-json": "*"
