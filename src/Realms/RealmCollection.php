@@ -16,6 +16,9 @@ class RealmCollection extends Collection
      */
     protected $data;
 
+    /**
+     * @return Realm[]
+     */
     public function getRealms()
     {
         return $this->data;

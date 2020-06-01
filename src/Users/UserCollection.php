@@ -16,6 +16,9 @@ class UserCollection extends Collection
      */
     protected $data;
 
+    /**
+     * @return User[]
+     */
     public function getUsers()
     {
         return $this->data;

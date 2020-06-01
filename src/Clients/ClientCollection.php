@@ -16,6 +16,9 @@ class ClientCollection extends Collection
      */
     protected $data;
 
+    /**
+     * @return Client[]
+     */
     public function getData()
     {
         return $this->data;
