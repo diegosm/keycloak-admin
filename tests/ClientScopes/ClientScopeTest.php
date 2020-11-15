@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\ClientScopes;
 
 use GuzzleHttp\Psr7\Response;
-use KeycloakAdmin\Clients\Client;
 use KeycloakAdmin\ClientScopes\ClientScope;
 use KeycloakAdmin\ClientScopes\ClientScopeCollection;
 use KeycloakAdmin\ClientScopes\ClientScopeManager;
@@ -55,36 +54,36 @@ class ClientScopeTest extends BaseTest
     public function testCanCreatClientScopeFromJson()
     {
         $json = '{
-    "id": "ca57ceee-78f5-4314-b6c7-f805b3b235fb",
-    "name": "address",
-    "description": "OpenID Connect built-in scope: address",
-    "protocol": "openid-connect",
-    "attributes": {
-      "include.in.token.scope": "true",
-      "display.on.consent.screen": "true",
-      "consent.screen.text": "${addressScopeConsentText}"
-    },
-    "protocolMappers": [
-      {
-        "id": "64ae07b3-dda2-47f8-955f-6aa38698a8c9",
-        "name": "address",
-        "protocol": "openid-connect",
-        "protocolMapper": "oidc-address-mapper",
-        "consentRequired": false,
-        "config": {
-          "user.attribute.formatted": "formatted",
-          "user.attribute.country": "country",
-          "user.attribute.postal_code": "postal_code",
-          "userinfo.token.claim": "true",
-          "user.attribute.street": "street",
-          "id.token.claim": "true",
-          "user.attribute.region": "region",
-          "access.token.claim": "true",
-          "user.attribute.locality": "locality"
-        }
-      }
-    ]
-  }';
+            "id": "ca57ceee-78f5-4314-b6c7-f805b3b235fb",
+            "name": "address",
+            "description": "OpenID Connect built-in scope: address",
+            "protocol": "openid-connect",
+            "attributes": {
+              "include.in.token.scope": "true",
+              "display.on.consent.screen": "true",
+              "consent.screen.text": "${addressScopeConsentText}"
+            },
+            "protocolMappers": [
+              {
+                "id": "64ae07b3-dda2-47f8-955f-6aa38698a8c9",
+                "name": "address",
+                "protocol": "openid-connect",
+                "protocolMapper": "oidc-address-mapper",
+                "consentRequired": false,
+                "config": {
+                  "user.attribute.formatted": "formatted",
+                  "user.attribute.country": "country",
+                  "user.attribute.postal_code": "postal_code",
+                  "userinfo.token.claim": "true",
+                  "user.attribute.street": "street",
+                  "id.token.claim": "true",
+                  "user.attribute.region": "region",
+                  "access.token.claim": "true",
+                  "user.attribute.locality": "locality"
+                }
+              }
+            ]
+          }';
 
         $manager = $this->createClientScopeManager();
 
