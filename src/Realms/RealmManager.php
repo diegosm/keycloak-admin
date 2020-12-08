@@ -179,6 +179,7 @@ class RealmManager
                 throw new RealmUpdateException();
             }
         } catch (\Exception $exception) {
+            var_dump($exception->getMessage());
             throw new RealmUpdateException();
         }
 

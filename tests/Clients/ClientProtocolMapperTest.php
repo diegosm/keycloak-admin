@@ -66,13 +66,12 @@ class ClientProtocolMapperTest extends BaseTest
         );
 
         $client = $this->getMockBuilder(\GuzzleHttp\Client::class)->getMock();
-        $client->expects($this->at(0))
+        $client->expects($this->exactly(2))
             ->method('request')
-            ->willReturn($updateResponse);
-
-        $client->expects($this->at(1))
-            ->method('request')
-            ->willReturn($showResponse);
+            ->willReturnOnConsecutiveCalls(
+                $updateResponse,
+                $showResponse
+            );
 
         $manager = $this->createClientProtocolMapperManager($client);
 

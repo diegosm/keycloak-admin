@@ -7,6 +7,7 @@ namespace Tests;
 use KeycloakAdmin\Clients\ClientManager;
 use KeycloakAdmin\ClientScopes\ClientScopeManager;
 use KeycloakAdmin\Keycloak\Exceptions\UnauthorizedException;
+use KeycloakAdmin\Keycloak\KeycloakLogin;
 use KeycloakAdmin\KeycloakAdmin;
 use KeycloakAdmin\Realms\RealmManager;
 use KeycloakAdmin\Roles\RoleManager;
@@ -73,7 +74,12 @@ class KeycloakAdminTest extends BaseTest
         return new KeycloakAdmin(
             $client,
             $this->keycloakAdminConfig,
-            $this->serializer
+            $this->serializer,
+            new KeycloakLogin(
+                $client,
+                $this->keycloakAdminConfig,
+                $this->serializer
+            )
         );
     }
 }

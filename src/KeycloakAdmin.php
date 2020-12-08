@@ -12,6 +12,7 @@ use KeycloakAdmin\ClientScopes\ClientScopeManager;
 use KeycloakAdmin\Keycloak\Exceptions\UnauthorizedException;
 use KeycloakAdmin\Keycloak\KeycloakAdminConfig;
 use KeycloakAdmin\Keycloak\KeycloakAuth;
+use KeycloakAdmin\Keycloak\KeycloakLogin;
 use KeycloakAdmin\Realms\RealmManager;
 use KeycloakAdmin\Roles\RoleManager;
 use KeycloakAdmin\Users\UserManager;
@@ -27,64 +28,34 @@ class KeycloakAdmin
     /** @var SerializerInterface */
     private $serializer;
 
-    /** @var KeycloakAuth */
-    private $keycloakAuth;
-
     /**
      * KeycloakAdmin constructor.
      * @param Client $client
      * @param KeycloakAdminConfig $keycloakAdminConfig
      * @param SerializerInterface $serializer
+     * @param KeycloakLogin $keycloakLogin
+     * @param KeycloakAuth|null $keycloakAuth
      * @throws UnauthorizedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function __construct(
-        Client $client,
+        Client              $client,
         KeycloakAdminConfig $keycloakAdminConfig,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        KeycloakLogin       $keycloakLogin,
+        KeycloakAuth        $keycloakAuth = null
     ) {
         $this->client              = $client;
         $this->keycloakAdminConfig = $keycloakAdminConfig;
         $this->serializer          = $serializer;
 
-        $this->login();
+        $this->keycloakAuth = empty($keycloakAuth) ? $keycloakLogin->login() : $keycloakAuth;
     }
 
-    /**
-     * Login method used for get keycloak access
-     * @throws UnauthorizedException
-     */
-    private function login() : void
-    {
-        $data = [
-            'auth' => [
-                $this->keycloakAdminConfig->getUsername(),
-                $this->keycloakAdminConfig->getPassword()
-            ],
-            'form_params' => [
-                'grant_type' => 'client_credentials'
-            ]
-        ];
+    /** @var KeycloakAuth */
+    private $keycloakAuth;
 
-        try {
-            $request = $this->client->request(
-                'POST',
-                $this->keycloakAdminConfig->getUrl('realms/master/protocol/openid-connect/token'),
-                $data
-            );
 
-            if ($request->getStatusCode() === 200) {
-                $this->keycloakAuth = $this->serializer->deserialize(
-                    $request->getBody()->getContents(),
-                    KeycloakAuth::class,
-                    'json'
-                );
-            } else {
-                throw new UnauthorizedException();
-            }
-        } catch (\Exception $exception) {
-            throw new UnauthorizedException();
-        }
-    }
 
     /**
      * @return RealmManager

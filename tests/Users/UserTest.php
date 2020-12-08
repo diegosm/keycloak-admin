@@ -87,13 +87,11 @@ class UserTest extends BaseTest
         );
 
         $client = $this->getMockBuilder(\GuzzleHttp\Client::class)->getMock();
-        $client->expects($this->at(0))
-            ->method('request')
-            ->willReturn($updateResponse);
-
-        $client->expects($this->at(1))
-            ->method('request')
-            ->willReturn($showResponse);
+        $client->method('request')
+            ->willReturnOnConsecutiveCalls(
+                $updateResponse,
+                $showResponse
+            );
 
         $manager = $this->createUserManager($client);
 

@@ -10,7 +10,6 @@ use KeycloakAdmin\Realms\Realm;
 use KeycloakAdmin\Realms\RealmCollection;
 use KeycloakAdmin\Realms\RealmManager;
 use Tests\BaseTest;
-use Tests\KeycloakAdminTestFactory;
 
 class RealmTest extends BaseTest
 {
@@ -97,14 +96,10 @@ class RealmTest extends BaseTest
             $json
         );
 
-        $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->at(0))
-            ->method('request')
-            ->willReturn($updateResponse);
+        $client = $this->getMockBuilder(Client::class)
+            ->getMock();
 
-        $client->expects($this->at(1))
-            ->method('request')
-            ->willReturn($showResponse);
+        $client->method('request')->willReturnOnConsecutiveCalls($updateResponse, $showResponse);
 
         $manager = $this->createRealmManager($client);
 
