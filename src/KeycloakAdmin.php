@@ -55,7 +55,34 @@ class KeycloakAdmin
     /** @var KeycloakAuth */
     private $keycloakAuth;
 
+    /**
+     * This could be used to force destroy session state after their use
+     * I recommend to put it on __destruct()
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function logout() : void
+    {
+        $data = [
+            'headers' => $this->keycloakAuth->getDefaultHeaders(),
+        ];
 
+        try {
+            $request = $this->client->request(
+                'DELETE',
+                $this->keycloakAdminConfig->getUrl(
+                    'admin/realms/master/sessions/' . $this->keycloakAuth->getSessionState()
+                ),
+                $data
+            );
+
+            if ($request->getStatusCode() !== 204) {
+                throw new \Exception('Could not destroy current session.');
+            }
+        } catch (\Exception $exception) {
+            throw new \Exception('Could not destroy current session.');
+        }
+    }
 
     /**
      * @return RealmManager
